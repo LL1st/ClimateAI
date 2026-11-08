@@ -85,7 +85,7 @@ def filas_tabla(serie, anios_anomalos):
         filas.append({
             'pais': fila.pais, 'anio': int(fila.anio),
             'temp': f'{num(fila.temp_media_anual_c)} °C',
-            'incertidumbre': f'± {num(fila.incertidumbre_c)}',
+            'incertidumbre': '—' if fila.incertidumbre_c != fila.incertidumbre_c else f'± {num(fila.incertidumbre_c)}',
             'anomalia': 'Sí' if int(fila.anio) in anios_anomalos else 'No',
         })
     return filas

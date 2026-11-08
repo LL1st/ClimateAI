@@ -73,9 +73,10 @@ def contenido(filtros):
     periodo = f'{inicio}–{fin}'
 
     sin = k['media'] is None
+    nombre = datos.nombre_filtro(pais)
     kpis = [
         dbc.Col(tarjeta_kpi('Temperatura media', 'Sin datos' if sin else f"{num(k['media'])} °C",
-                            f'{pais} · {periodo}', icono_nombre='termometro', tono='naranja'), md=4),
+                            f'{nombre} · {periodo}', icono_nombre='termometro', tono='naranja'), md=4),
         dbc.Col(tarjeta_kpi('Variación del periodo', '—' if k['variacion'] is None else f"{con_signo(k['variacion'])} °C",
                             f"Últimos {k['ventana'] or 10} años frente a los primeros {k['ventana'] or 10}",
                             icono_nombre='tendencia', tono='azul'), md=4),
@@ -85,13 +86,14 @@ def contenido(filtros):
     ]
 
     referencia = PAISES_REFERENCIA + ([] if pais in PAISES_REFERENCIA else [pais])
-    barras = [barra_referencia(p, *valor_referencia(datos.serie_pais(p, inicio, fin)), fin, destacado=(p == pais))
+    barras = [barra_referencia(datos.nombre_filtro(p), *valor_referencia(datos.serie_pais(p, inicio, fin)), fin,
+                               destacado=(p == pais))
               for p in referencia]
 
     filas = filas_tabla(serie, set(anomalias.anio))
-    return (kpis, figura_evolucion(serie, anomalias), f'Temperatura media anual · {pais} · {periodo}',
+    return (kpis, figura_evolucion(serie, anomalias), f'Temperatura media anual · {nombre} · {periodo}',
             barras, f'Último año con dato del periodo ({fin})', filas,
-            f'{pais} · {periodo} · {len(filas)} registros, {len(anomalias)} con anomalía')
+            f'{nombre} · {periodo} · {len(filas)} registros, {len(anomalias)} con anomalía')
 
 
 @callback(Output('temp-kpis', 'children'), Output('temp-grafica', 'figure'), Output('temp-grafica-nota', 'children'),

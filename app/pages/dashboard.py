@@ -12,7 +12,7 @@ from componentes.diagnostico import panel_diagnostico, registro_inferencia
 from componentes.icono import icono
 from componentes.kpis import calcular_kpis, fila_kpis
 from componentes.mapa import SELECCION_VACIA, elegir_pais, figura_mapa, leyenda_mapa
-from componentes.grafica_estimacion import figura_estimacion
+from componentes.grafica_estimacion import figura_estimacion, figura_evolucion_promedio
 from componentes.sidebar import PAIS_INICIAL
 from componentes.tarjeta_estimacion import EJEMPLOS, formulario_estimacion, resultado_estimacion
 from modelo.inferencia import predecir
@@ -39,12 +39,52 @@ def subtitulo_estado():
 
 # ---------- KPIs (5.1): reaccionan a los filtros globales de país y años ----------
 
-def kpis_para(filtros):
+def _filtro(filtros):
     f = filtros or {}
-    pais = f.get('pais') or PAIS_INICIAL
-    inicio, fin = f.get('anio_inicio', datos.ANIO_MIN), f.get('anio_fin', datos.ANIO_MAX)
+    return (f.get('pais') or PAIS_INICIAL, f.get('anio_inicio', datos.ANIO_MIN), f.get('anio_fin', datos.ANIO_MAX))
+
+
+def kpis_para(filtros):
+    pais, inicio, fin = _filtro(filtros)
+    if pais == datos.GLOBAL:
+        # el promedio global no tiene anomalías propias: se cuentan las de todos los países
+        valores = calcular_kpis(datos.serie_pais(pais, inicio, fin), datos.anomalias(None, inicio, fin))
+        return fila_kpis(datos.NOMBRE_GLOBAL, valores, 'Años atípicos en todos los países')
     valores = calcular_kpis(datos.serie_pais(pais, inicio, fin), datos.anomalias(pais, inicio, fin))
     return fila_kpis(pais, valores)
+
+
+# ---------- Evolución de la temperatura del país filtrado o del promedio global ----------
+
+def tarjeta_evolucion():
+    return html.Section([
+        html.Div([
+            html.Div(icono('termometro', 22), className='tarjeta-encabezado-icono'),
+            html.Div([
+                html.H2(['Evolución de temperatura', html.Span(id='evol-titulo')], className='titulo-seccion'),
+                html.Div(id='evol-nota', className='nota'),
+            ]),
+        ], className='tarjeta-encabezado'),
+        dcc.Graph(id='evol-grafica', config={'displayModeBar': False}),
+    ], className='tarjeta mt-3', id='tarjeta-evolucion')
+
+
+def evolucion(filtros):
+    """Serie del país o del promedio global con su promedio móvil de 10 años y la referencia 1951–1980."""
+    pais, inicio, fin = _filtro(filtros)
+    nombre = datos.nombre_filtro(pais)
+    serie = datos.serie_pais(pais, inicio, fin)
+    nota = (f'Temperatura media anual · {inicio}–{fin} · línea gruesa: promedio de 10 años · '
+            'punteada: promedio de 1951–1980')
+    if pais != datos.GLOBAL:
+        nota += ' · elige «Promedio global» en el filtro de país para ver el mundo'
+    return figura_evolucion_promedio(serie), f' · {nombre}', nota
+
+
+@callback(Output('evol-grafica', 'figure'), Output('evol-titulo', 'children'), Output('evol-nota', 'children'),
+          Input('filtros', 'data'))
+def actualizar_evolucion(filtros):
+    return evolucion(filtros)
 
 
 @callback(Output('fila-kpis', 'children'), Input('filtros', 'data'), prevent_initial_call=True)
@@ -62,6 +102,7 @@ def layout():
             dbc.Col([formulario_estimacion(datos.lista_paises(), datos.ANIO_MAX, _nombre_modelo()),
                      panel_comparacion(datos.lista_paises())], xl=4),
         ], className='g-3 mt-0'),
+        tarjeta_evolucion(),
         tarjeta_grafica_estimacion(),
         dcc.Store(id='ultima-inferencia'),   # entrada, salida y tiempo_ms para el panel de diagnóstico (7.3)
         panel_diagnostico(datos.metricas()),

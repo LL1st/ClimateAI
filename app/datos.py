@@ -62,6 +62,15 @@ def _posiciones():
 
 _POSICION = _posiciones()
 
+# Opción «Global» del filtro de país: la serie global de tierra firme con las mismas columnas
+# que la de un país, para que las páginas la usen igual (1900–2012, como el resto del filtro).
+GLOBAL = '__global__'
+NOMBRE_GLOBAL = 'Promedio global (tierra firme)'
+_SERIE_GLOBAL = (_GLOBAL[_GLOBAL.anio <= ANIO_MAX]
+                 .rename(columns={'temp_global_tierra_c': 'temp_media_anual_c'})[['anio', 'temp_media_anual_c']]
+                 .assign(pais=NOMBRE_GLOBAL, incertidumbre_c=float('nan')))
+_SERIE_GLOBAL['ref_1951_1980_c'] = _SERIE_GLOBAL.loc[_SERIE_GLOBAL.anio.between(1951, 1980), 'temp_media_anual_c'].mean()
+
 
 def _rango(df, anio_inicio, anio_fin):
     if anio_inicio is not None:
@@ -78,10 +87,22 @@ def lista_paises():
     return list(_PAISES)
 
 
+def opciones_filtro_pais():
+    """Opciones del filtro de país: «Promedio global» primero y luego los 232 países."""
+    return [{'label': NOMBRE_GLOBAL, 'value': GLOBAL}] + [{'label': p, 'value': p} for p in _PAISES]
+
+
+def nombre_filtro(pais):
+    """Nombre para mostrar de un valor del filtro (el país, o «Promedio global (tierra firme)»)."""
+    return NOMBRE_GLOBAL if pais == GLOBAL else pais
+
+
 def serie_pais(pais, anio_inicio=None, anio_fin=None):
     """Serie anual de un país: anio, temp_media_anual_c, incertidumbre_c, ref_1951_1980_c, etc.
+    Con pais=GLOBAL devuelve la serie global de tierra firme con las mismas columnas (sin incertidumbre).
     Devuelve un DataFrame vacío si el país no existe."""
-    df = _rango(_PAIS_ANIO[_PAIS_ANIO.pais == pais], anio_inicio, anio_fin)
+    base = _SERIE_GLOBAL if pais == GLOBAL else _PAIS_ANIO[_PAIS_ANIO.pais == pais]
+    df = _rango(base, anio_inicio, anio_fin)
     return df.reset_index(drop=True).copy()
 
 

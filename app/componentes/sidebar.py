@@ -31,7 +31,7 @@ def sidebar():
         html.Div('Filtros', className='sidebar-etiqueta'),
         html.Div([
             html.Label('País', htmlFor='filtro-pais', className='form-label'),
-            dcc.Dropdown(id='filtro-pais', options=datos.lista_paises(), value=PAIS_INICIAL,
+            dcc.Dropdown(id='filtro-pais', options=datos.opciones_filtro_pais(), value=PAIS_INICIAL,
                          clearable=False, persistence=True, persistence_type='session',
                          labels=ETIQUETAS_DESPLEGABLE),
             html.Label('Rango de años', htmlFor='filtro-anios', className='form-label mt-3'),

@@ -62,3 +62,26 @@ def _estilo(fig):
     fig.update_xaxes(showgrid=False, linecolor='#E7EAED', tickformat='d')
     fig.update_yaxes(gridcolor='#E7EAED', zeroline=False)
     return fig
+
+
+def figura_evolucion_promedio(serie):
+    """Temperatura anual (línea fina), su promedio móvil de 10 años (línea gruesa) y la referencia
+    de 1951–1980 (punteada). Sirve para un país o para el promedio global (datos.GLOBAL)."""
+    if serie is None or serie.empty:
+        return _vacia('Sin datos en el periodo elegido')
+    s = serie.sort_values('anio')
+    movil = s.temp_media_anual_c.rolling(10, min_periods=5).mean()
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=s.anio, y=s.temp_media_anual_c, mode='lines', name='Temperatura anual',
+                             line=dict(color='rgba(233, 104, 58, 0.45)', width=1.4),
+                             hovertemplate='%{x}: %{y:.2f} °C<extra>Anual</extra>'))
+    fig.add_trace(go.Scatter(x=s.anio, y=movil, mode='lines', name='Promedio de 10 años',
+                             line=dict(color=COLOR_ESTIMACION, width=3),
+                             hovertemplate='%{x}: %{y:.2f} °C<extra>Promedio de 10 años</extra>'))
+    ref = s.ref_1951_1980_c.iloc[0]
+    if ref == ref:      # no es NaN
+        fig.add_hline(y=float(ref), line=dict(color='#636C77', width=1, dash='dot'),
+                      annotation_text=f'1951–1980: {ref:.2f} °C'.replace('.', ','),
+                      annotation_position='top left', annotation_font=dict(size=11, color='#636C77'))
+    fig.update_yaxes(title_text='°C')
+    return _estilo(fig)

@@ -39,8 +39,9 @@ def calcular_kpis(serie, anomalias):
     }
 
 
-def fila_kpis(pais, k):
-    """Las 4 tarjetas a partir de calcular_kpis(). Con «Sin datos» cuando el periodo está vacío."""
+def fila_kpis(pais, k, nota_anomalias='Años atípicos por revisar'):
+    """Las 4 tarjetas a partir de calcular_kpis(). Con «Sin datos» cuando el periodo está vacío.
+    pais es el nombre para mostrar (un país o «Promedio global (tierra firme)»)."""
     periodo = f"{k['anio_inicio']}–{k['anio_fin']}" if k['anio_inicio'] else 'sin datos en el periodo'
     if k['media'] is None:
         valores = ('Sin datos',) * 3
@@ -58,7 +59,7 @@ def fila_kpis(pais, k):
         tarjeta_kpi('Cambio frente a 1951–1980', valores[2],
                     f"Referencia: {num(k['referencia'])} °C" if k['referencia'] is not None else 'Sin referencia',
                     icono_nombre='barras', tono='verde', id='kpi-cambio'),
-        tarjeta_kpi('Anomalías', str(k['anomalias']), 'Años atípicos por revisar', icono_nombre='alerta',
+        tarjeta_kpi('Anomalías', str(k['anomalias']), nota_anomalias, icono_nombre='alerta',
                     tono='aviso', id='kpi-anomalias'),
     ]
     return [dbc.Col(t, sm=6, xl=3) for t in tarjetas]

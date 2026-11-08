@@ -8,7 +8,7 @@ Dashboard web académico (UT Cancún, LITIID 73) que muestra la temperatura hist
 
 ## Capturas
 
-**Dashboard:** KPIs según los filtros, mapa mundial por año y estimación del modelo con su margen de error.
+**Dashboard:** KPIs según los filtros, mapa mundial por año, estimación del modelo con su margen de error y evolución de la temperatura. En el filtro «País» se puede elegir «Promedio global (tierra firme)» para ver cómo ha cambiado la temperatura en todo el mundo.
 
 ![Dashboard](docs/capturas/1-dashboard.jpg)
 

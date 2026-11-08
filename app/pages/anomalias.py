@@ -117,7 +117,11 @@ def contenido(filtros, pais_tabla):
     serie = datos.serie_pais(pais_filtro, inicio, fin)
     an_pais = datos.anomalias(pais_filtro, inicio, fin)
     figura = figura_evolucion(serie, an_pais)
-    nota_grafica = f'{pais_filtro} (país de la barra lateral) · {periodo} · {len(an_pais)} años atípicos'
+    if pais_filtro == datos.GLOBAL:
+        nota_grafica = (f'{datos.NOMBRE_GLOBAL} (filtro de la barra lateral) · {periodo} · '
+                        'los años atípicos se detectan por país: elige uno para verlos aquí')
+    else:
+        nota_grafica = f'{pais_filtro} (país de la barra lateral) · {periodo} · {len(an_pais)} años atípicos'
     nota_tabla = f'{alcance} · {periodo} · de la más atípica a la menos atípica'
     return kpis, figura, nota_grafica, filas_anomalias(tabla), nota_tabla
 

@@ -51,22 +51,34 @@ def contenido(filtros):
     pais = f.get('pais') or PAIS_INICIAL
     inicio, fin = f.get('anio_inicio', datos.ANIO_MIN), f.get('anio_fin', datos.ANIO_MAX)
 
-    an_pais = anomalia_pais(datos.serie_pais(pais, inicio, fin))
+    es_global = pais == datos.GLOBAL
+    nombre = datos.nombre_filtro(pais)
+    # con «Promedio global» la línea del país sería la misma que la global: solo se dibuja la global
+    serie = datos.serie_pais(pais, inicio, fin)
+    an_pais = anomalia_pais(serie.iloc[0:0] if es_global else serie)
     an_global = anomalia_global(_GLOBAL, inicio, fin)
     tabla = anomalia_mensual(datos.mensual_pais(pais), inicio, fin)
 
-    media_pais, n_pais = _ultimos(an_pais)
     media_global, n_global = _ultimos(an_global)
     por_mes = tabla.mean(axis=1).dropna()
     if por_mes.empty:
-        mes_valor, mes_nota = '—', 'Sin datos mensuales'
+        mes_valor = '—'
+        mes_nota = 'El promedio global solo tiene datos anuales' if es_global else 'Sin datos mensuales'
     else:
         mes_valor = MESES[int(por_mes.idxmax()) - 1]
         mes_nota = f'{con_signo(float(por_mes.max()))} °C en promedio · {pais}'
-    kpis = [
-        dbc.Col(tarjeta_kpi(f'Anomalía de {pais}', '—' if media_pais is None else f'{con_signo(media_pais)} °C',
+    if es_global:   # primera tarjeta: cómo empezó el periodo, para ver el cambio frente a la segunda
+        d = an_global.dropna(subset=['anomalia']).sort_values('anio').head(10)
+        media_1, n_1 = (float(d.anomalia.mean()), len(d)) if not d.empty else (None, 0)
+        kpi_1 = tarjeta_kpi('Anomalía global al inicio', '—' if media_1 is None else f'{con_signo(media_1)} °C',
+                            f'Promedio de los primeros {n_1} años del periodo', icono_nombre='termometro', tono='naranja')
+    else:
+        media_pais, n_pais = _ultimos(an_pais)
+        kpi_1 = tarjeta_kpi(f'Anomalía de {pais}', '—' if media_pais is None else f'{con_signo(media_pais)} °C',
                             f'Promedio de los últimos {n_pais} años del periodo', icono_nombre='termometro',
-                            tono='naranja'), md=4),
+                            tono='naranja')
+    kpis = [
+        dbc.Col(kpi_1, md=4),
         dbc.Col(tarjeta_kpi('Anomalía global terrestre', '—' if media_global is None else f'{con_signo(media_global)} °C',
                             f'Promedio de los últimos {n_global} años del periodo', icono_nombre='globo',
                             tono='azul'), md=4),
@@ -74,8 +86,10 @@ def contenido(filtros):
                             tono='aviso'), md=4),
     ]
     periodo = f'{inicio}–{fin}'
-    return (kpis, figura_anomalias(pais, an_pais, an_global), f'{pais} · {periodo}',
-            figura_estacional(tabla), f'{pais} · {periodo} · cada celda es un mes')
+    nota_5 = ('El promedio global solo tiene datos anuales: elige un país para ver los meses'
+              if es_global else f'{pais} · {periodo} · cada celda es un mes')
+    return (kpis, figura_anomalias(nombre, an_pais, an_global), f'{nombre} · {periodo}',
+            figura_estacional(tabla), nota_5)
 
 
 @callback(Output('global-kpis', 'children'), Output('global-grafica-4', 'figure'), Output('global-nota-4', 'children'),

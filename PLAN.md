@@ -115,6 +115,9 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
   - Resultado (8/11): secciones Qué es ClimateAI, Datos, Modelo, Métricas (tablas de modelos y por horizonte, leídas de los JSON), Limitaciones y Licencia (Berkeley Earth CC BY-NC 4.0, Natural Earth dominio público).
   - Prompt: «En `pages/acerca.py`, explica en texto breve los datos (Berkeley Earth, 1900–2012), el modelo (regresión lineal sobre el cambio frente al promedio de 5 años), sus métricas (de `metricas.json` y `mae_por_horizonte.json`), las limitaciones y la licencia de los datos.»
 
+- [x] **Extra (8/11) · Opción «Promedio global» en el filtro de país**
+  - Pedido del equipo antes del congelamiento. El filtro de país tiene primero «Promedio global (tierra firme)». En el Dashboard, los KPIs usan la serie global (las anomalías cuentan las de todos los países) y la nueva tarjeta «Evolución de temperatura» muestra la serie anual, su promedio de 10 años y la referencia 1951–1980 del país o del promedio global. Temperaturas, Global y estaciones y Anomalías también aceptan la opción. La estimación y el mapa siguen siendo por país.
+
 ### Vie 20 · Congelamiento de funciones (H7)
 
 - [x] Todas las tareas de las fases 0 a 7 están terminadas y con commit. (8/11)

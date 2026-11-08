@@ -58,9 +58,10 @@ def figura_anomalias(pais, an_pais, an_global):
     if an_pais.empty and an_global.empty:
         return _estilo(_vacia(fig, 'Sin datos en el periodo elegido'), 300)
     fig.add_hline(y=0, line=dict(color='#C9CFD5', width=1))
-    fig.add_trace(go.Scatter(x=an_pais.anio, y=an_pais.anomalia, mode='lines', name=pais,
-                             line=dict(color=COLOR_PAIS, width=2),
-                             hovertemplate='%{x}: %{y:+.2f} °C<extra>' + pais + '</extra>'))
+    if not an_pais.empty:   # vacía cuando el filtro es «Promedio global»: solo queda la línea global
+        fig.add_trace(go.Scatter(x=an_pais.anio, y=an_pais.anomalia, mode='lines', name=pais,
+                                 line=dict(color=COLOR_PAIS, width=2),
+                                 hovertemplate='%{x}: %{y:+.2f} °C<extra>' + pais + '</extra>'))
     fig.add_trace(go.Scatter(x=an_global.anio, y=an_global.anomalia, mode='lines', name='Global terrestre',
                              line=dict(color=COLOR_GLOBAL, width=2, dash='dash'),
                              hovertemplate='%{x}: %{y:+.2f} °C<extra>Global terrestre</extra>'))
