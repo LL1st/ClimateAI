@@ -47,7 +47,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 
 ## Fase 2 · Datos para el mapa (lun 9 – mar 10 · José y Juan)
 
-- [ ] **2.1 Tabla de países a ISO3** (José)
+- [x] **2.1 Tabla de países a ISO3** (José)
+  - Resultado: 228 de 232 con ISO3. Sin código: Baker Island, Kingman Reef y Palmyra Atoll (deshabitados) y Gaza Strip (comparte PSE con Palestina). Para la 2.2: Natural Earth usa `ADM0_A3` distintos de ISO3 en algunos casos (p. ej. Palestina `PSX`, Sudán del Sur `SDS`); hay que traducirlos al unir. Sudán del Sur no está en Berkeley Earth (sus datos van dentro de Sudan).
   - Prompt: «Crea `scripts/generar_paises_iso3.py`, que produzca `data/processed/paises_iso3.csv` con las columnas `pais` e `iso3` para los 232 países de `clima_pais_anio.csv`. Usa una tabla de equivalencias escrita en el script para los nombres que no son estándar. Imprime al final la lista de países sin código. Los territorios deshabitados sin código pueden quedar fuera del mapa, pero deben listarse.»
   - Terminado cuando: todos los países con población tienen ISO3 y la lista de excluidos está revisada.
 - [ ] **2.2 Puntos del mapa** 🧭 (Juan; se corre en la computadora del equipo, porque necesita internet)
