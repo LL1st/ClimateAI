@@ -51,10 +51,11 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
   - Resultado: 228 de 232 con ISO3. Sin código: Baker Island, Kingman Reef y Palmyra Atoll (deshabitados) y Gaza Strip (comparte PSE con Palestina). Para la 2.2: Natural Earth usa `ADM0_A3` distintos de ISO3 en algunos casos (p. ej. Palestina `PSX`, Sudán del Sur `SDS`); hay que traducirlos al unir. Sudán del Sur no está en Berkeley Earth (sus datos van dentro de Sudan).
   - Prompt: «Crea `scripts/generar_paises_iso3.py`, que produzca `data/processed/paises_iso3.csv` con las columnas `pais` e `iso3` para los 232 países de `clima_pais_anio.csv`. Usa una tabla de equivalencias escrita en el script para los nombres que no son estándar. Imprime al final la lista de países sin código. Los territorios deshabitados sin código pueden quedar fuera del mapa, pero deben listarse.»
   - Terminado cuando: todos los países con población tienen ISO3 y la lista de excluidos está revisada.
-- [ ] **2.2 Puntos del mapa** 🧭 (Juan; se corre en la computadora del equipo, porque necesita internet)
+- [x] **2.2 Puntos del mapa** 🧭 (Juan; se corre en la computadora del equipo, porque necesita internet)
   - Prompt: «Crea `scripts/generar_puntos_mapa.py` con geopandas. Debe descargar el mapa de países Admin 0 de Natural Earth a escala 1:110m, crear una cuadrícula de puntos cada 2 grados y conservar solo los que caen sobre un país. Guarda `data/processed/puntos_mapa.csv` con `lat, lon, iso3`. Usa la columna `ADM0_A3` de Natural Earth, no `ISO_A3`, porque esta trae -99 para Francia y Noruega. Imprime cuántos puntos quedaron.»
   - Terminado cuando: hay entre 3,000 y 10,000 puntos y casi todos los países de `paises_iso3.csv` tienen al menos un punto.
   - **Plan B:** si geopandas da problemas, usa un mapa coroplético de Plotly con los códigos ISO3 (ver tarea 3.1).
+  - Resultado (8/11): 3,956 puntos (3,879 de la cuadrícula 1:110m + 77 de relleno con el mapa 1:50m para islas y países pequeños) y los 228 países con código tienen punto. Los territorios de ultramar (Guayana Francesa, Reunión, Svalbard, Bonaire…) se separan de su país. Brunéi, Kosovo, Sudán del Sur y Vanuatu no están en Berkeley Earth: sus puntos conservan su código y en la 3.1 van en gris. Dependencias en `requirements-scripts.txt`.
 
 ## Fase 3 · Mapa interactivo (mié 11 – vie 13 · Juan · A14) — ruta crítica
 
