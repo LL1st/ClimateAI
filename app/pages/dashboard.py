@@ -1,6 +1,6 @@
 """Página «Dashboard»: KPIs según los filtros (5.1), mapa mundial por año con selección A/B
 (3.1 y 3.2), tarjeta de estimación (4.1), gráfica 3 con casos de ejemplo (4.2) y panel de
-comparación de dos países en modo Comparar (6.1)."""
+comparación de dos países en modo Comparar (6.1) y panel de diagnóstico (7.3)."""
 import dash
 import dash_bootstrap_components as dbc
 from dash import ClientsideFunction, Input, Output, State, callback, clientside_callback, ctx, dcc, html, no_update
@@ -8,6 +8,7 @@ from dash import ClientsideFunction, Input, Output, State, callback, clientside_
 import datos
 from componentes.formato import num
 from componentes.comparacion import cuerpo_comparacion, panel_comparacion
+from componentes.diagnostico import panel_diagnostico, registro_inferencia
 from componentes.icono import icono
 from componentes.kpis import calcular_kpis, fila_kpis
 from componentes.mapa import SELECCION_VACIA, elegir_pais, figura_mapa, leyenda_mapa
@@ -63,6 +64,7 @@ def layout():
         ], className='g-3 mt-0'),
         tarjeta_grafica_estimacion(),
         dcc.Store(id='ultima-inferencia'),   # entrada, salida y tiempo_ms para el panel de diagnóstico (7.3)
+        panel_diagnostico(datos.metricas()),
         html.Div(id='dashboard-contenido'),
     ])
 
@@ -290,3 +292,10 @@ def comparar(seleccion, filtros):
           Input('paises-ab', 'data'), Input('filtros', 'data'))
 def actualizar_comparacion(seleccion, filtros):
     return comparar(seleccion, filtros)
+
+
+# ---------- Panel de diagnóstico (7.3) ----------
+
+@callback(Output('diag-registro', 'children'), Input('ultima-inferencia', 'data'))
+def actualizar_diagnostico(registro):
+    return registro_inferencia(registro)

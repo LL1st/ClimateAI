@@ -108,7 +108,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 - [x] **7.2 Página Anomalías**
   - Resultado (8/11): «Anomalías detectadas» como el Figma AF · 5: KPIs (registros señalados, países con avisos, periodo), gráfica 6 del país de la barra lateral con sus años atípicos, tabla de observaciones (de la más atípica a la menos; selector «País de la tabla» con «Todos los países») y recuadro «Cómo interpretar estos avisos» con «No predice desastres naturales». Nota: Dash 4 marca `DataTable` como obsoleto (recomienda dash-ag-grid); funciona, se puede migrar después del congelamiento si hace falta.
   - Prompt: «En `pages/anomalias.py`, muestra 3 KPIs (registros señalados, países con avisos y periodo), la gráfica 6 (serie del país con círculos en los años de `anomalias.csv`), la tabla de anomalías filtrable por país y años, y el recuadro "Cómo interpretar estos avisos" con el texto del Figma.»
-- [ ] **7.3 Panel de diagnóstico**
+- [x] **7.3 Panel de diagnóstico**
+  - Resultado (8/11): panel plegable «Diagnóstico del modelo» al final del Dashboard (cerrado al inicio): resumen de métricas (MAE 0,307 vs. línea base 0,318, R², corte 1992), gráfica 7 con los coeficientes estandarizados de `peso_variables` (naranja sube la estimación, azul la baja) y registro de la última inferencia (entrada, tiempo_ms, resultado y JSON completo).
   - Prompt: «Agrega al final del Dashboard un panel plegable con la gráfica 7 (barras horizontales con `peso_variables` de `metricas.json`) y el registro de la última inferencia (entrada, salida y `tiempo_ms`).»
 - [ ] **7.4 Página Acerca del proyecto**
   - Prompt: «En `pages/acerca.py`, explica en texto breve los datos (Berkeley Earth, 1900–2012), el modelo (regresión lineal sobre el cambio frente al promedio de 5 años), sus métricas (de `metricas.json` y `mae_por_horizonte.json`), las limitaciones y la licencia de los datos.»

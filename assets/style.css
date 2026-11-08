@@ -246,3 +246,13 @@ body {
 
 /* ---------- Página Anomalías (7.2) ---------- */
 .text-naranja { color: var(--naranja-texto); display: inline-flex; }
+
+/* ---------- Panel de diagnóstico (7.3) ---------- */
+.diag-resumen { cursor: pointer; list-style-position: outside; }
+.diag-resumen::marker { color: var(--naranja-texto); }
+.diag-subtitulo { font-size: 14px; font-weight: 600; margin: 18px 0 2px; }
+.diag-tabla { font-size: 13px; margin-top: 6px; }
+.diag-tabla th, .diag-tabla td { padding: 4px 12px 4px 0; vertical-align: top; }
+.diag-etiqueta { color: var(--texto-secundario); font-weight: 500; white-space: nowrap; }
+.diag-json { background: var(--fondo); border-radius: 10px; padding: 12px; font-size: 12px; max-height: 260px;
+             overflow: auto; margin-top: 8px; }
