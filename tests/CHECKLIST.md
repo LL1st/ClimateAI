@@ -201,4 +201,5 @@ Prioridad: **crítico** (rompe la app o da datos falsos) · **alto** (una funci�
 | ID | Criterio | Descripción | Prioridad | Estado |
 | --- | --- | --- | --- | --- |
 | DEF-01 | CA-09 c | El texto secundario `#6B7580` sobre el fondo `#F2F4F6` tiene 4,3:1 (< 4,5:1). Corregido: `--texto-secundario` ahora es `#636C77` (4,8:1 sobre gris, 5,3:1 sobre blanco); `tests/test_estilos.py::test_contraste_aa` lo vigila | medio | Cerrado (8/11) |
+| DEF-02 | CA-07 | En el panel «Comparación», los valores de las tres tarjetas («+25,53 °C») se partían en dos líneas en pantallas de 1400 px. Corregido: el valor no se parte y su tamaño se ajusta al ancho | bajo | Cerrado (8/11) |
 | | | | | |

@@ -239,8 +239,10 @@ body {
 .tarjeta-comparacion { height: 100%; }
 .tarjeta-comparacion .dash-dropdown { min-width: 0; }
 .comp-tarjetas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
-.comp-mini { border: 1px solid var(--borde); border-radius: 12px; padding: 10px 12px; }
-.comp-valor { font-size: 20px; font-weight: 700; line-height: 1.2; }
+.comp-mini { border: 1px solid var(--borde); border-radius: 12px; padding: 8px 10px; min-width: 0; }
+.comp-mini .kpi-titulo { font-size: 12px; line-height: 1.3; }
+/* el valor no se parte en dos líneas (DEF-02); se achica un poco en columnas angostas */
+.comp-valor { font-size: clamp(15px, 1.3vw, 20px); font-weight: 700; line-height: 1.2; white-space: nowrap; }
 .comp-valor.comp-a { color: var(--naranja-texto); }
 .comp-valor.comp-b { color: var(--azul); }
 
