@@ -88,7 +88,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 - [x] **5.2 Página Temperaturas**
   - Resultado (8/11): «Explorador de temperaturas» como el Figma AF · 3: KPIs (media, variación, cobertura temporal), evolución del país con círculos en las anomalías (el año se escribe solo si hay 8 o menos), barras de México, Canadá, España e India (+ el país filtrado) con el último año del periodo, y tabla paginada con «¿Anomalía?». Todo reacciona a los filtros globales.
   - Prompt: «En `pages/temperaturas.py`, muestra la evolución histórica del país filtrado (línea), un resumen de 4 países de referencia en barras y una tabla paginada con `pais, anio, temp_media_anual_c, incertidumbre_c` y una columna "¿Anomalía?". Todo reacciona a los filtros globales.»
-- [ ] **5.3 Página Global y estaciones**
+- [x] **5.3 Página Global y estaciones**
+  - Resultado (8/11): gráfica 4 (anomalía del país y global terrestre frente a 1951–1980), gráfica 5 (mapa de calor año × mes, de azul a rojo; la referencia mensual siempre es 1951–1980 aunque se filtre otro periodo) y 3 KPIs (anomalía del país y global en los últimos 10 años, mes más cálido frente a lo normal). RF-09: 5 de 5 valores coinciden con los CSV en `tests/test_global_estaciones.py`.
   - Prompt: «En `pages/global_estaciones.py`, agrega la gráfica 4, con la anomalía del país y la anomalía global terrestre frente a 1951–1980 en dos líneas, y la gráfica 5, un heatmap con año en X, mes en Y y color de la anomalía de cada mes frente a su promedio de 1951–1980, en escala de azul a rojo.»
   - Terminado cuando: 5 de 5 valores revisados coinciden con los CSV (RF-09) y los filtros actualizan todo en menos de 3 s.
 
