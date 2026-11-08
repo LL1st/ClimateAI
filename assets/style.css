@@ -227,3 +227,10 @@ body {
 
 /* ---------- Subtítulo del Dashboard (5.1) ---------- */
 .subtitulo-pagina { font-size: 12px; margin-bottom: 4px; }
+
+/* ---------- Explorador de temperaturas (5.2) ---------- */
+.barra-referencia { margin-bottom: 18px; font-size: 13px; }
+.barra-fondo { height: 6px; background: var(--fondo); border-radius: 999px; margin-top: 6px; overflow: hidden; }
+.barra-relleno { height: 100%; border-radius: 999px; }
+.leyenda-anomalia { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--naranja-texto); display: inline-block; }
+.dash-table-container .previous-next-container { font-size: 12px; }

@@ -85,7 +85,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 - [x] **5.1 KPIs del dashboard**
   - Resultado (8/11): temperatura media, variación (últimos 10 años frente a los primeros 10), cambio frente a 1951–1980 y anomalías, según el país y el rango de años de la barra lateral. Reemplazan la franja provisional; el estado de datos y modelo quedó como subtítulo bajo «Dashboard».
   - Prompt: «Agrega la fila de 4 KPIs al Dashboard: temperatura media del periodo, variación del periodo, cambio frente a 1951–1980 y número de anomalías. Todos reaccionan a los filtros globales de país y rango de años.»
-- [ ] **5.2 Página Temperaturas**
+- [x] **5.2 Página Temperaturas**
+  - Resultado (8/11): «Explorador de temperaturas» como el Figma AF · 3: KPIs (media, variación, cobertura temporal), evolución del país con círculos en las anomalías (el año se escribe solo si hay 8 o menos), barras de México, Canadá, España e India (+ el país filtrado) con el último año del periodo, y tabla paginada con «¿Anomalía?». Todo reacciona a los filtros globales.
   - Prompt: «En `pages/temperaturas.py`, muestra la evolución histórica del país filtrado (línea), un resumen de 4 países de referencia en barras y una tabla paginada con `pais, anio, temp_media_anual_c, incertidumbre_c` y una columna "¿Anomalía?". Todo reacciona a los filtros globales.»
 - [ ] **5.3 Página Global y estaciones**
   - Prompt: «En `pages/global_estaciones.py`, agrega la gráfica 4, con la anomalía del país y la anomalía global terrestre frente a 1951–1980 en dos líneas, y la gráfica 5, un heatmap con año en X, mes en Y y color de la anomalía de cada mes frente a su promedio de 1951–1980, en escala de azul a rojo.»
