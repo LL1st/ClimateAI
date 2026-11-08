@@ -123,7 +123,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 
 ## Fase 8 · Pruebas y corrección (lun 23 – vie 27 · Luis prueba, Juan corrige)
 
-- [ ] **8.1 Pruebas automáticas de rendimiento**
+- [x] **8.1 Pruebas automáticas de rendimiento**
+  - Resultado (8/11): `tests/test_rendimiento.py` mide 11 callbacks con casos pesados (Rusia, 1900–2012), incluida la serialización a JSON, peor de 3 intentos, más la carga de cada página. El más lento: mapa por año, 190 ms; todos muy por debajo de 3 s. La lupa del mapa corre en el navegador y no pasa por el servidor.
   - Prompt: «Agrega pruebas que midan el tiempo de los callbacks principales (mapa por año, estimación, filtros y comparación) llamando a sus funciones directamente. Deben fallar si alguno pasa de 3 s.»
 - [ ] **8.2 Lista de verificación manual**
   - Prompt: «Crea `tests/CHECKLIST.md` con los criterios CA-01 a CA-09 del documento de planificación, convertidos en pasos de prueba manual: navegadores (Chrome, Edge y Firefox), prueba de usabilidad (3 usuarios comparan dos países en 3 min o menos, sin ayuda) y revisión de contraste.»
