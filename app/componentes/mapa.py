@@ -43,8 +43,44 @@ def _textos(df):
 _TOOLTIP = '<b>%{customdata[0]}</b><br>%{customdata[1]} · %{customdata[2]}<extra></extra>'
 
 
-def figura_mapa(df):
-    """df de datos.mapa_anio(). Con lat/lon dibuja puntos; si no, coroplético de respaldo."""
+# Países A y B del modo Comparar (tarea 3.2): la letra acompaña al color (regla 5)
+COLOR_AB = {'a': '#B8461F', 'b': '#2E75A9'}   # tonos oscuros: la letra blanca cumple contraste 4.5:1
+SELECCION_VACIA = {'a': None, 'b': None}
+
+
+def elegir_pais(seleccion, pais):
+    """Regla de clics en modo Comparar: el 1.º elige A, el 2.º elige B y desde el 3.º se reemplaza B.
+    Hacer clic otra vez en A no cambia nada."""
+    sel = {**SELECCION_VACIA, **(seleccion or {})}
+    if not pais or pais == sel['a'] or pais == sel['b']:
+        return sel
+    if sel['a'] is None:
+        sel['a'] = pais
+    else:
+        sel['b'] = pais
+    return sel
+
+
+def _marcas_ab(seleccion, posicion):
+    """Traza con un círculo y la letra de cada país elegido. posicion: pais -> (lat, lon)."""
+    lat, lon, texto, color = [], [], [], []
+    for clave in ('a', 'b'):
+        pais = (seleccion or {}).get(clave)
+        pos = posicion(pais) if pais else None
+        if pos:
+            lat.append(pos[0]); lon.append(pos[1]); texto.append(f'<b>{clave.upper()}</b>'); color.append(COLOR_AB[clave])
+    # Insignia rellena con la letra blanca adentro (como los chips de la barra de selección)
+    return go.Scattergeo(
+        lat=lat, lon=lon, mode='markers+text', text=texto, textposition='middle center',
+        textfont=dict(size=12, color='#FFFFFF', family='Inter, Segoe UI, sans-serif'),
+        marker=dict(symbol='circle', size=22, color=color, line=dict(width=2, color='#FFFFFF')),
+        hoverinfo='skip', showlegend=False, name='seleccion',
+    )
+
+
+def figura_mapa(df, seleccion=None, posicion=None):
+    """df de datos.mapa_anio(). Con lat/lon dibuja puntos; si no, coroplético de respaldo.
+    seleccion {'a', 'b'} y posicion(pais) -> (lat, lon) agregan las marcas A y B."""
     if 'lat' not in df.columns:
         return figura_coropletica(df)
     colores, custom = _textos(df)
@@ -53,6 +89,8 @@ def figura_mapa(df):
         lat=df.lat, lon=df.lon, mode='markers', customdata=custom, hovertemplate=_TOOLTIP,
         marker=dict(size=[TAMANO_PUNTO * f for f in factores], color=colores, line=dict(width=0), opacity=1),
     ))
+    if posicion is not None:
+        fig.add_trace(_marcas_ab(seleccion, posicion))        # traza 1; la lupa solo toca la traza 0
     fig.update_layout(meta={'paso': PASO_GRADOS, 'factores': factores})   # lo lee mapa_lupa.js
     return _estilo(fig)
 
@@ -79,6 +117,7 @@ def _estilo(fig):
     )
     fig.update_layout(
         margin=dict(l=0, r=0, t=0, b=0), autosize=True, paper_bgcolor='rgba(0,0,0,0)', dragmode=False,
+        showlegend=False,   # la leyenda es propia (leyenda_mapa)
         hoverlabel=dict(bgcolor='#FFFFFF', bordercolor='#E7EAED', font=dict(family='Inter, Segoe UI, sans-serif',
                                                                              size=12, color='#1F2933')),
         uirevision='mapa',   # conserva el estado de la vista al cambiar de año

@@ -48,6 +48,21 @@ else:                                   # respaldo: el mapa se dibuja como corop
     _PUNTOS = None
 
 
+def _posiciones():
+    """Para cada país, el punto suyo más cercano al centro de sus puntos (ahí van las marcas A y B)."""
+    if not HAY_PUNTOS:
+        return {}
+    pos = {}
+    for pais, g in _PUNTOS.dropna(subset=['pais']).groupby('pais'):
+        d = (g.lat - g.lat.mean()) ** 2 + (g.lon - g.lon.mean()) ** 2
+        fila = g.loc[d.idxmin()]
+        pos[pais] = (float(fila.lat), float(fila.lon))
+    return pos
+
+
+_POSICION = _posiciones()
+
+
 def _rango(df, anio_inicio, anio_fin):
     if anio_inicio is not None:
         df = df[df.anio >= anio_inicio]
@@ -84,6 +99,11 @@ def mapa_anio(anio):
     df = base.copy()
     df['temp'] = df.pais.map(temps)
     return df.reset_index(drop=True)
+
+
+def posicion_pais(pais):
+    """(lat, lon) de uno de los puntos del país en el mapa, o None si no tiene."""
+    return _POSICION.get(pais)
 
 
 def serie_global(anio_inicio=None, anio_fin=None):

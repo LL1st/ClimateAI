@@ -32,6 +32,7 @@ app = dash.Dash(
 
 app.layout = html.Div([
     dcc.Store(id='filtros'),
+    dcc.Store(id='paises-ab', data={'a': None, 'b': None}),   # países A y B del modo Comparar (3.2, 4.1, 6.1)
     sidebar(),
     html.Main([dash.page_container, aviso_transparencia()], className='contenido'),
 ], className='app-contenedor')

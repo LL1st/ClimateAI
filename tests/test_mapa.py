@@ -85,6 +85,6 @@ def pagina_dashboard():
 @pytest.mark.parametrize('anio', [1900, 1950, 2012])
 def test_callback_del_anio_tarda_menos_de_3_s(pagina_dashboard, anio):
     t0 = time.perf_counter()
-    fig, texto = pagina_dashboard.actualizar_mapa(anio)
+    fig, texto = pagina_dashboard.actualizar_mapa(anio, {'a': 'Mexico', 'b': 'Canada'})
     assert time.perf_counter() - t0 < 3
     assert texto == str(anio) and len(fig.data[0].lat) > 900
