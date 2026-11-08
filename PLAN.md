@@ -111,13 +111,14 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 - [x] **7.3 Panel de diagnóstico**
   - Resultado (8/11): panel plegable «Diagnóstico del modelo» al final del Dashboard (cerrado al inicio): resumen de métricas (MAE 0,307 vs. línea base 0,318, R², corte 1992), gráfica 7 con los coeficientes estandarizados de `peso_variables` (naranja sube la estimación, azul la baja) y registro de la última inferencia (entrada, tiempo_ms, resultado y JSON completo).
   - Prompt: «Agrega al final del Dashboard un panel plegable con la gráfica 7 (barras horizontales con `peso_variables` de `metricas.json`) y el registro de la última inferencia (entrada, salida y `tiempo_ms`).»
-- [ ] **7.4 Página Acerca del proyecto**
+- [x] **7.4 Página Acerca del proyecto**
+  - Resultado (8/11): secciones Qué es ClimateAI, Datos, Modelo, Métricas (tablas de modelos y por horizonte, leídas de los JSON), Limitaciones y Licencia (Berkeley Earth CC BY-NC 4.0, Natural Earth dominio público).
   - Prompt: «En `pages/acerca.py`, explica en texto breve los datos (Berkeley Earth, 1900–2012), el modelo (regresión lineal sobre el cambio frente al promedio de 5 años), sus métricas (de `metricas.json` y `mae_por_horizonte.json`), las limitaciones y la licencia de los datos.»
 
 ### Vie 20 · Congelamiento de funciones (H7)
 
-- [ ] Todas las tareas de las fases 0 a 7 están terminadas y con commit.
-- [ ] `pytest -q` pasa y la app arranca sin errores en la consola.
+- [x] Todas las tareas de las fases 0 a 7 están terminadas y con commit. (8/11)
+- [x] `pytest -q` pasa y la app arranca sin errores en la consola. (8/11: 162 pruebas; consola limpia en pestaña nueva)
 - [ ] Desde aquí solo se corrigen defectos; no se agregan funciones.
 
 ## Fase 8 · Pruebas y corrección (lun 23 – vie 27 · Luis prueba, Juan corrige)
