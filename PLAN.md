@@ -28,7 +28,7 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 - [x] **0.1 Inicializar el repositorio**
   - Prompt: «Inicializa git en esta carpeta. Crea un `.gitignore` para Python que excluya `.venv/`, `__pycache__/`, `data/raw/` y `.DS_Store`. Actualiza `requirements.txt` agregando dash, dash-bootstrap-components, plotly y pytest con versiones fijas compatibles con las que ya están, y corrige el README para que pida Python 3.11 o superior.»
   - Terminado cuando: `pip install -r requirements.txt` funciona en un entorno nuevo y el primer commit está hecho.
-- [ ] **0.2 Pruebas del modelo existente**
+- [x] **0.2 Pruebas del modelo existente**
   - Prompt: «Crea `tests/test_predecir.py` con pytest. Debe probar que `predecir()` devuelve todas las llaves del contrato en `CLAUDE.md` para México a 5 años; que devuelve `error` sin lanzar excepción con país inexistente, horizonte 0, horizonte 11, entrada vacía y un año base sin datos; que `valor_real` viene lleno para Canadá desde 2000 a 10 años; y que cada llamada tarda menos de 3 s.»
   - Terminado cuando: `pytest -q` pasa.
 
