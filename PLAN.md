@@ -95,7 +95,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 
 ## Fase 6 · Comparación de dos países (mar 17 – jue 19 · Juan · A15) → H6
 
-- [ ] **6.1 Panel de comparación**
+- [x] **6.1 Panel de comparación**
+  - Resultado (8/11): en modo Comparar, la columna derecha muestra «Comparación» (Figma AF · 2) en lugar de la estimación, y se oculta la gráfica 3. Selectores A/B sincronizados en ambos sentidos con el mapa, gráfica 2 (A naranja continua, B azul punteada, con su último valor), y tarjetas «Diferencia A − B» (promedio en los años que ambos tienen), «Cambio en A» y «Cambio en B» (mismo cálculo que el KPI de variación). Mensajes si falta un país o no hay datos en el periodo. RF-07: diferencia igual al cálculo a mano en 3 casos.
   - Prompt: «Cuando el interruptor está en Comparar, sustituye la tarjeta de estimación por el panel de comparación del Figma: selectores A y B (sincronizados con el mapa), la gráfica 2 con dos líneas (A naranja continua, B azul punteada) y 3 tarjetas: diferencia A − B, cambio de A y cambio de B en el periodo filtrado. Si solo hay un país elegido, muestra "Elige un segundo país en el mapa para comparar".»
   - Terminado cuando: la diferencia coincide con un cálculo a mano en 3 casos (RF-07).
 

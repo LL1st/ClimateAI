@@ -234,3 +234,12 @@ body {
 .barra-relleno { height: 100%; border-radius: 999px; }
 .leyenda-anomalia { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--naranja-texto); display: inline-block; }
 .dash-table-container .previous-next-container { font-size: 12px; }
+
+/* ---------- Panel de comparación (6.1) ---------- */
+.tarjeta-comparacion { height: 100%; }
+.tarjeta-comparacion .dash-dropdown { min-width: 0; }
+.comp-tarjetas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+.comp-mini { border: 1px solid var(--borde); border-radius: 12px; padding: 10px 12px; }
+.comp-valor { font-size: 20px; font-weight: 700; line-height: 1.2; }
+.comp-valor.comp-a { color: var(--naranja-texto); }
+.comp-valor.comp-b { color: var(--azul); }

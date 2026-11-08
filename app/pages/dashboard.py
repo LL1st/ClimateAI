@@ -1,11 +1,13 @@
 """Página «Dashboard»: KPIs según los filtros (5.1), mapa mundial por año con selección A/B
-(3.1 y 3.2), tarjeta de estimación (4.1) y gráfica 3 con casos de ejemplo (4.2)."""
+(3.1 y 3.2), tarjeta de estimación (4.1), gráfica 3 con casos de ejemplo (4.2) y panel de
+comparación de dos países en modo Comparar (6.1)."""
 import dash
 import dash_bootstrap_components as dbc
 from dash import ClientsideFunction, Input, Output, State, callback, clientside_callback, ctx, dcc, html, no_update
 
 import datos
 from componentes.formato import num
+from componentes.comparacion import cuerpo_comparacion, panel_comparacion
 from componentes.icono import icono
 from componentes.kpis import calcular_kpis, fila_kpis
 from componentes.mapa import SELECCION_VACIA, elegir_pais, figura_mapa, leyenda_mapa
@@ -56,7 +58,8 @@ def layout():
         dbc.Row(kpis_para(None), className='g-3 mt-2', id='fila-kpis'),
         dbc.Row([   # como el Figma: mapa a la izquierda y estimación a la derecha (apilados en pantallas angostas)
             dbc.Col(tarjeta_mapa(), xl=8),
-            dbc.Col(formulario_estimacion(datos.lista_paises(), datos.ANIO_MAX, _nombre_modelo()), xl=4),
+            dbc.Col([formulario_estimacion(datos.lista_paises(), datos.ANIO_MAX, _nombre_modelo()),
+                     panel_comparacion(datos.lista_paises())], xl=4),
         ], className='g-3 mt-0'),
         tarjeta_grafica_estimacion(),
         dcc.Store(id='ultima-inferencia'),   # entrada, salida y tiempo_ms para el panel de diagnóstico (7.3)
@@ -239,3 +242,51 @@ def mostrar_seleccion(modo, seleccion):
 # Efecto «lupa»: se engancha en el navegador cada vez que cambia la figura (assets/mapa_lupa.js)
 clientside_callback(ClientsideFunction(namespace='climateai', function_name='activarLupa'),
                     Output('mapa-lupa', 'data'), Input('mapa', 'figure'))
+
+
+# ---------- Panel de comparación (6.1): sustituye a la estimación en modo Comparar ----------
+
+@callback(Output('tarjeta-estimacion', 'hidden'), Output('tarjeta-grafica-estimacion', 'hidden'),
+          Output('tarjeta-comparacion', 'hidden'),
+          Output('comp-a', 'value', allow_duplicate=True), Output('comp-b', 'value', allow_duplicate=True),
+          Input('mapa-modo', 'value'), State('paises-ab', 'data'), prevent_initial_call='initial_duplicate')
+def alternar_panel(modo, seleccion):
+    """Cambia entre estimación y comparación. Corre también al dibujarse el Dashboard, y ahí
+    llena los selectores A/B con lo que ya estaba elegido (solo usa entradas de esta página)."""
+    comparar = modo == 'comparar'
+    sel = {**SELECCION_VACIA, **(seleccion or {})}
+    return comparar, comparar, not comparar, sel['a'], sel['b']
+
+
+def sincronizar(disparador, seleccion, valor_a, valor_b):
+    """Mapa y selectores A/B muestran lo mismo. Lógica separada para probarla sin Dash.
+    Devuelve (nueva selección para el Store, valor del selector A, valor del selector B)."""
+    sel = {**SELECCION_VACIA, **(seleccion or {})}
+    if disparador in ('comp-a', 'comp-b'):
+        nueva = {'a': valor_a, 'b': valor_b if valor_b != valor_a else None}
+        if nueva == sel:
+            return no_update, no_update, no_update
+        return nueva, no_update, (no_update if nueva['b'] == valor_b else nueva['b'])
+    return no_update, sel['a'], sel['b']
+
+
+@callback(Output('paises-ab', 'data', allow_duplicate=True), Output('comp-a', 'value'), Output('comp-b', 'value'),
+          Input('paises-ab', 'data'), Input('comp-a', 'value'), Input('comp-b', 'value'),
+          prevent_initial_call=True)   # no corre al arrancar: los selectores aún no existen
+def sincronizar_selectores(seleccion, valor_a, valor_b):
+    return sincronizar(ctx.triggered_id, seleccion, valor_a, valor_b)
+
+
+def comparar(seleccion, filtros):
+    sel = {**SELECCION_VACIA, **(seleccion or {})}
+    f = filtros or {}
+    inicio, fin = f.get('anio_inicio', datos.ANIO_MIN), f.get('anio_fin', datos.ANIO_MAX)
+    serie_a = datos.serie_pais(sel['a'], inicio, fin) if sel['a'] else None
+    serie_b = datos.serie_pais(sel['b'], inicio, fin) if sel['b'] else None
+    return cuerpo_comparacion(sel['a'], serie_a, sel['b'], serie_b), f'Temperatura media anual · {inicio}–{fin}'
+
+
+@callback(Output('comp-cuerpo', 'children'), Output('comp-nota', 'children'),
+          Input('paises-ab', 'data'), Input('filtros', 'data'))
+def actualizar_comparacion(seleccion, filtros):
+    return comparar(seleccion, filtros)
