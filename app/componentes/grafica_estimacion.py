@@ -13,7 +13,7 @@ _FUENTE = dict(family='Inter, Segoe UI, sans-serif', size=12, color='#1F2933')
 
 def _vacia(mensaje):
     fig = go.Figure()
-    fig.add_annotation(text=mensaje, showarrow=False, font=dict(size=13, color='#6B7580'),
+    fig.add_annotation(text=mensaje, showarrow=False, font=dict(size=13, color='#636C77'),
                        xref='paper', yref='paper', x=0.5, y=0.5)
     fig.update_xaxes(visible=False)
     fig.update_yaxes(visible=False)

@@ -46,7 +46,7 @@ def anomalia_mensual(mensual_completo, inicio, fin):
 
 def _vacia(fig, mensaje):
     fig.add_annotation(text=mensaje, showarrow=False, xref='paper', yref='paper', x=0.5, y=0.5,
-                       font=dict(size=13, color='#6B7580'))
+                       font=dict(size=13, color='#636C77'))
     fig.update_xaxes(visible=False)
     fig.update_yaxes(visible=False)
     return fig

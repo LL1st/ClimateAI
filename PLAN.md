@@ -130,6 +130,7 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
   - Resultado (8/11): `tests/CHECKLIST.md` con pasos y resultados esperados para CA-01 a CA-09, tablas por navegador, guion de usabilidad y tabla de contraste. **CA-04 a CA-07 se dedujeron de los RF/RNF porque el documento de planificación no está en el repositorio: confirmarlos.** Se abrió DEF-01 (texto secundario sobre fondo gris: 4,3:1).
   - Prompt: «Crea `tests/CHECKLIST.md` con los criterios CA-01 a CA-09 del documento de planificación, convertidos en pasos de prueba manual: navegadores (Chrome, Edge y Firefox), prueba de usabilidad (3 usuarios comparan dos países en 3 min o menos, sin ayuda) y revisión de contraste.»
 - [ ] **8.3 Corrección de defectos:** un commit por defecto, primero los críticos y altos.
+  - DEF-01 (medio) cerrado el 8/11: contraste del texto secundario sobre el fondo gris.
 
 ## Fase 9 · Entrega (lun 30 – mar 1/12)
 

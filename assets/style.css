@@ -1,6 +1,6 @@
 /* ClimateAI · tokens de diseño (CLAUDE.md, sección Diseño) y estilos base.
    Dash carga este archivo solo. Los colores de texto ya usan los tonos corregidos
-   que cumplen contraste 4.5:1 (#6B7580 en vez de #87919B y #B8461F para naranja sobre claro). */
+   que cumplen contraste 4.5:1 (#636C77 en vez de #87919B y #B8461F para naranja sobre claro). */
 
 :root {
   /* Paleta */
@@ -13,7 +13,7 @@
   --verde-suave: #E9F4EA;
   --amarillo: #E2B64D;         /* temperatura media */
   --texto: #1F2933;
-  --texto-secundario: #6B7580;
+  --texto-secundario: #636C77;    /* 4,8:1 sobre el fondo gris y 5,3:1 sobre blanco (DEF-01) */
   --fondo: #F2F4F6;
   --borde: #E7EAED;
   --blanco: #FFFFFF;

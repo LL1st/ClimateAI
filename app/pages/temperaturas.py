@@ -52,7 +52,7 @@ def layout():
                 id='temp-tabla', columns=COLUMNAS, page_size=10, page_action='native', sort_action='native',
                 style_as_list_view=True,
                 style_header={'backgroundColor': '#F2F4F6', 'fontWeight': 600, 'border': 'none',
-                              'color': '#6B7580', 'fontSize': 12},
+                              'color': '#636C77', 'fontSize': 12},
                 style_cell={'fontFamily': 'Inter, Segoe UI, sans-serif', 'fontSize': 13, 'padding': '10px 8px',
                             'textAlign': 'left', 'color': '#1F2933', 'borderBottom': '1px solid #E7EAED'},
                 style_data_conditional=[{'if': {'filter_query': '{anomalia} = "Sí"', 'column_id': 'anomalia'},

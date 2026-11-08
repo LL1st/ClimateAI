@@ -180,8 +180,8 @@ Calculado con la fórmula de WCAG sobre los colores de `assets/style.css`. Confi
 | Uso | Texto | Fondo | Contraste | ¿Cumple? |
 | --- | --- | --- | --- | --- |
 | Texto principal | `#1F2933` | blanco | 14,8:1 | ✅ |
-| Texto secundario en tarjetas | `#6B7580` | blanco | 4,7:1 | ✅ |
-| **Texto secundario sobre el fondo gris** (subtítulos de página, barra A/B, bloque de resultado) | `#6B7580` | `#F2F4F6` | **4,3:1** | ❌ ver DEF-01 |
+| Texto secundario en tarjetas | `#636C77` | blanco | 5,3:1 | ✅ |
+| Texto secundario sobre el fondo gris (subtítulos de página, barra A/B, bloque de resultado) | `#636C77` | `#F2F4F6` | 4,8:1 | ✅ (antes 4,3:1, ver DEF-01) |
 | Naranja de texto | `#B8461F` | blanco | 5,3:1 | ✅ |
 | Menú activo y chip «Riesgo alto» | `#B8461F` | `#FDEEE8` | 4,7:1 | ✅ |
 | Botón principal | blanco | `#B8461F` | 5,3:1 | ✅ |
@@ -200,5 +200,5 @@ Prioridad: **crítico** (rompe la app o da datos falsos) · **alto** (una funci�
 
 | ID | Criterio | Descripción | Prioridad | Estado |
 | --- | --- | --- | --- | --- |
-| DEF-01 | CA-09 c | El texto secundario `#6B7580` sobre el fondo `#F2F4F6` tiene 4,3:1 (< 4,5:1). Propuesta: cambiar `--texto-secundario` a `#636C77` (4,8:1 sobre gris, 5,3:1 sobre blanco) | medio | Abierto |
+| DEF-01 | CA-09 c | El texto secundario `#6B7580` sobre el fondo `#F2F4F6` tiene 4,3:1 (< 4,5:1). Corregido: `--texto-secundario` ahora es `#636C77` (4,8:1 sobre gris, 5,3:1 sobre blanco); `tests/test_estilos.py::test_contraste_aa` lo vigila | medio | Cerrado (8/11) |
 | | | | | |

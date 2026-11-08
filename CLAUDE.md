@@ -90,7 +90,7 @@ Hay tres diferencias que ganan sobre el Figma:
 - **Colores:** donde el Figma use texto gris `#87919B` o naranja sobre fondo naranja claro, usa los tonos corregidos de abajo.
 
 - Tipografía Inter: títulos Bold 25, secciones Semi Bold 18, navegación Medium 13 y notas Regular 11 o más.
-- Colores: naranja `#E9683A` (acción, país A, temperatura alta), azul `#2E75A9` (país B), verde `#42934D` (temperatura baja), amarillo `#E2B64D` (temperatura media), texto `#1F2933`, texto secundario `#6B7580`, fondo `#F2F4F6`, borde `#E7EAED` y aviso `#7A520C` sobre `#FFF5DD`.
+- Colores: naranja `#E9683A` (acción, país A, temperatura alta), azul `#2E75A9` (país B), verde `#42934D` (temperatura baja), amarillo `#E2B64D` (temperatura media), texto `#1F2933`, texto secundario `#636C77` (corregido en DEF-01: cumple 4,5:1 también sobre el fondo gris), fondo `#F2F4F6`, borde `#E7EAED` y aviso `#7A520C` sobre `#FFF5DD`.
 - Para texto sobre fondos claros usa `#B8461F` en lugar del naranja. Estos tonos ya cumplen el contraste 4.5:1.
 - Tarjetas blancas con radio de 16 px y borde de 1 px; controles con radio de 8 a 10 px; barra lateral blanca de 244 px.
 

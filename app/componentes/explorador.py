@@ -9,7 +9,7 @@ PAISES_REFERENCIA = ['Mexico', 'Canada', 'Spain', 'India']
 
 # color de la barra y tono de texto con contraste 4.5:1 sobre blanco, por clase
 _TONOS = {'Baja': ('#42934D', '#2E6B36'), 'Media': ('#E2B64D', '#7A520C'),
-          'Alta': ('#E9683A', '#B8461F'), 'Sin datos': ('#C9CFD5', '#6B7580')}
+          'Alta': ('#E9683A', '#B8461F'), 'Sin datos': ('#C9CFD5', '#636C77')}
 ESCALA_MIN, ESCALA_MAX = -20, 30      # °C: largo de las barras (temperaturas anuales de 1900–2012)
 MAX_ETIQUETAS = 8                     # anomalías con su año escrito en la gráfica
 
@@ -21,7 +21,7 @@ def figura_evolucion(serie, anomalias):
     fig = go.Figure()
     if serie is None or serie.empty:
         fig.add_annotation(text='Sin datos en el periodo elegido', showarrow=False, xref='paper', yref='paper',
-                           x=0.5, y=0.5, font=dict(size=13, color='#6B7580'))
+                           x=0.5, y=0.5, font=dict(size=13, color='#636C77'))
         fig.update_xaxes(visible=False)
         fig.update_yaxes(visible=False)
         return _estilo(fig)
