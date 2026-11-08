@@ -105,7 +105,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 - [x] **7.1 Prueba de las 5 anomalías introducidas** (CA-08)
   - Resultado (8/11): +3 °C en México 1985, Canadá 1970, India 1960, España 1995 y Brasil 1975 (ninguno era anomalía antes). Se recalculan las variables derivadas como en `preparar_datos.py` y se vuelve a correr el Isolation Forest de `entrenar.py`: 5 de 5 detectados. La prueba también verifica que la configuración siga igual a la de `entrenar.py` y que el CSV original no cambie.
   - Prompt: «Crea `tests/test_anomalias.py`. Debe tomar una copia de `clima_pais_anio.csv`, alterar 5 pares país-año conocidos sumando +3 °C, volver a correr el Isolation Forest con la misma configuración de `modelo/entrenar.py` y verificar que al menos 4 de los 5 queden marcados. No modifiques los archivos originales.»
-- [ ] **7.2 Página Anomalías**
+- [x] **7.2 Página Anomalías**
+  - Resultado (8/11): «Anomalías detectadas» como el Figma AF · 5: KPIs (registros señalados, países con avisos, periodo), gráfica 6 del país de la barra lateral con sus años atípicos, tabla de observaciones (de la más atípica a la menos; selector «País de la tabla» con «Todos los países») y recuadro «Cómo interpretar estos avisos» con «No predice desastres naturales». Nota: Dash 4 marca `DataTable` como obsoleto (recomienda dash-ag-grid); funciona, se puede migrar después del congelamiento si hace falta.
   - Prompt: «En `pages/anomalias.py`, muestra 3 KPIs (registros señalados, países con avisos y periodo), la gráfica 6 (serie del país con círculos en los años de `anomalias.csv`), la tabla de anomalías filtrable por país y años, y el recuadro "Cómo interpretar estos avisos" con el texto del Figma.»
 - [ ] **7.3 Panel de diagnóstico**
   - Prompt: «Agrega al final del Dashboard un panel plegable con la gráfica 7 (barras horizontales con `peso_variables` de `metricas.json`) y el registro de la última inferencia (entrada, salida y `tiempo_ms`).»

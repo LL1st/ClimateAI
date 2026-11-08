@@ -243,3 +243,6 @@ body {
 .comp-valor { font-size: 20px; font-weight: 700; line-height: 1.2; }
 .comp-valor.comp-a { color: var(--naranja-texto); }
 .comp-valor.comp-b { color: var(--azul); }
+
+/* ---------- Página Anomalías (7.2) ---------- */
+.text-naranja { color: var(--naranja-texto); display: inline-flex; }
