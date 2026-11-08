@@ -27,6 +27,7 @@ app = dash.Dash(
     assets_folder=os.path.join(_RAIZ, 'assets'),
     external_stylesheets=[dbc.themes.BOOTSTRAP, FUENTE_INTER],
     title='ClimateAI',
+    suppress_callback_exceptions=True,   # los componentes de cada página no están en el layout inicial
 )
 
 app.layout = html.Div([

@@ -76,4 +76,4 @@ def test_ninguna_funcion_vuelve_a_leer_archivos(monkeypatch):
     monkeypatch.setattr(builtins, 'open', prohibido)
     datos.lista_paises(); datos.serie_pais('Mexico', 1950, 2000); datos.valores_anio(1990)
     datos.serie_global(); datos.mensual_pais('Mexico'); datos.anomalias('Mexico')
-    datos.metricas(); datos.mae_por_horizonte(); datos.tabla_pais_anio()
+    datos.metricas(); datos.mae_por_horizonte(); datos.tabla_pais_anio(); datos.mapa_anio(2000)

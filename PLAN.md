@@ -59,7 +59,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 
 ## Fase 3 · Mapa interactivo (mié 11 – vie 13 · Juan · A14) — ruta crítica
 
-- [ ] **3.1 Mapa por año** 🧭
+- [x] **3.1 Mapa por año** 🧭
+  - Extra (8/11): efecto «lupa» al pasar el mouse (`assets/mapa_lupa.js`): el punto crece a 13 px y los vecinos a menos de 7° crecen según la distancia. Clases fijas Baja < 15 °C, Media 15–25 °C, Alta > 25 °C y gris «Sin datos».
   - Prompt: «En la página Dashboard, dibuja el mapa con `go.Scattergeo` usando `puntos_mapa.csv`. Cada punto toma el color de la temperatura de su país en el año elegido, con una escala de verde (baja) a amarillo (media) y a naranja (alta). Agrega el deslizador de año (1900–2012), un tooltip con el nombre del país y su °C, y la leyenda Baja/Media/Alta. Si `puntos_mapa.csv` no existe, usa `go.Choropleth` con los ISO3 como respaldo.»
   - Terminado cuando: al mover el año, el mapa se actualiza en menos de 3 s, y 10 de 10 tooltips revisados coinciden con el dataset (CA-02 y CA-03).
 - [ ] **3.2 Selección de países A y B**

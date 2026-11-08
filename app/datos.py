@@ -33,6 +33,20 @@ _PAISES = sorted(_PAIS_ANIO.pais.unique())
 ANIO_MIN = int(_PAIS_ANIO.anio.min())   # 1900
 ANIO_MAX = int(_PAIS_ANIO.anio.max())   # 2012
 
+# Mapa: tabla país -> ISO3 (tarea 2.1) y puntos de la cuadrícula (tarea 2.2, opcional)
+_ISO3 = pd.read_csv(os.path.join(_DIR, 'paises_iso3.csv'), encoding='utf-8', keep_default_na=False)
+_ISO3 = _ISO3[_ISO3.iso3 != '']
+# Países del mapa que no están en Berkeley Earth (ver scripts/generar_puntos_mapa.py)
+_NOMBRES_SIN_DATOS = {'BRN': 'Brunei', 'KOS': 'Kosovo', 'SDS': 'South Sudan', 'VUT': 'Vanuatu'}
+_NOMBRE_ISO3 = {**_NOMBRES_SIN_DATOS, **dict(zip(_ISO3.iso3, _ISO3.pais))}
+_RUTA_PUNTOS = os.path.join(_DIR, 'puntos_mapa.csv')
+HAY_PUNTOS = os.path.exists(_RUTA_PUNTOS)
+if HAY_PUNTOS:
+    _PUNTOS = pd.read_csv(_RUTA_PUNTOS, encoding='utf-8', keep_default_na=False)
+    _PUNTOS['pais'] = _PUNTOS.iso3.map(_NOMBRE_ISO3)
+else:                                   # respaldo: el mapa se dibuja como coroplético por país
+    _PUNTOS = None
+
 
 def _rango(df, anio_inicio, anio_fin):
     if anio_inicio is not None:
@@ -60,6 +74,16 @@ def valores_anio(anio):
     """Temperatura media de cada país en un año (para el mapa): pais, temp_media_anual_c."""
     df = _PAIS_ANIO.loc[_PAIS_ANIO.anio == anio, ['pais', 'temp_media_anual_c']]
     return df.reset_index(drop=True).copy()
+
+
+def mapa_anio(anio):
+    """Datos del mapa para un año. Con puntos: lat, lon, iso3, pais, temp (una fila por punto).
+    Sin puntos (respaldo): iso3, pais, temp (una fila por país). temp es NaN si no hay dato."""
+    temps = _PAIS_ANIO.loc[_PAIS_ANIO.anio == anio].set_index('pais').temp_media_anual_c
+    base = _PUNTOS if HAY_PUNTOS else _ISO3[['iso3', 'pais']]
+    df = base.copy()
+    df['temp'] = df.pais.map(temps)
+    return df.reset_index(drop=True)
 
 
 def serie_global(anio_inicio=None, anio_fin=None):
