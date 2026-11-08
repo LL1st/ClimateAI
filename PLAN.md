@@ -64,14 +64,15 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
   - Prompt: «En la página Dashboard, dibuja el mapa con `go.Scattergeo` usando `puntos_mapa.csv`. Cada punto toma el color de la temperatura de su país en el año elegido, con una escala de verde (baja) a amarillo (media) y a naranja (alta). Agrega el deslizador de año (1900–2012), un tooltip con el nombre del país y su °C, y la leyenda Baja/Media/Alta. Si `puntos_mapa.csv` no existe, usa `go.Choropleth` con los ISO3 como respaldo.»
   - Terminado cuando: al mover el año, el mapa se actualiza en menos de 3 s, y 10 de 10 tooltips revisados coinciden con el dataset (CA-02 y CA-03).
 - [x] **3.2 Selección de países A y B**
-  - Resultado (8/11): interruptor Explorar | Comparar, Store global `paises-ab` (`{'a', 'b'}`, en `app.py`), insignias A (naranja oscuro) y B (azul) con su letra sobre un punto de cada país, barra con chips y botón «Limpiar». 5 de 5 selecciones correctas en el navegador. **Pendiente para la 4.1:** el formulario de estimación todavía no existe; al crearlo, su selector de país debe tomar `paises-ab.a`.
+  - Resultado (8/11): interruptor Explorar | Comparar, Store global `paises-ab` (`{'a', 'b'}`, en `app.py`), insignias A (naranja oscuro) y B (azul) con su letra sobre un punto de cada país, barra con chips y botón «Limpiar». 5 de 5 selecciones correctas en el navegador. El país A se copia al formulario de estimación desde la 4.1.
   - Prompt: «Agrega el interruptor Explorar | Comparar en el encabezado del mapa. En modo Comparar, el primer clic en un país lo guarda como A y el segundo como B en un `dcc.Store`; un tercer clic reemplaza al B. Marca A y B en el mapa con un círculo y su letra. El país A también se copia al formulario de estimación.»
   - Terminado cuando: el Store guarda A y B correctos en 5 pruebas a mano.
 - **Recorte si el lunes 16 no está la 3.2:** quitar el deslizador de año y dejar el mapa en el último año (2012).
 
 ## Fase 4 · Estimación con el modelo (mié 11 – vie 13 · José · A21)
 
-- [ ] **4.1 Tarjeta de estimación** 🧭
+- [x] **4.1 Tarjeta de estimación** 🧭
+  - Resultado (8/11): tarjeta a la derecha del mapa como en el Figma (apilada en pantallas angostas); estados «resultado» y «sin estimación»; chip de riesgo con texto; «Real · Error» cuando hay `valor_real`. México, Canadá (2000→2010) e India (1995→2000) coinciden con `probar_predecir.py`. La franja de estado se quedó con «Datos cargados» y «Modelo». Los desplegables dicen «Buscar» en lugar de «Search».
   - Prompt: «En la página Dashboard, crea la tarjeta de estimación del Figma con el selector de país, el selector de año base (1910–2012, por omisión 2012), el deslizador de horizonte (1–10) y el botón "Calcular estimación". El botón llama a `predecir()` dentro de un callback envuelto en `dcc.Loading`. Muestra la predicción ± `mae_modelo`, el chip de riesgo (verde, ámbar o rojo, con texto), `cambio_vs_1951_1980` y el aviso. Si viene `valor_real`, muestra también "Real: X °C · Error: Y °C". Si viene `error`, muestra solo el mensaje.»
   - Terminado cuando: México, Canadá e India dan tarjetas completas, y una entrada inválida muestra el mensaje sin romper la app (RF-01, RF-02, RF-03 y RNF-02).
 - [ ] **4.2 Gráfica 3 y casos de ejemplo**

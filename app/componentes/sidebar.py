@@ -3,6 +3,7 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html
 
 import datos
+from componentes.formato import ETIQUETAS_DESPLEGABLE
 from componentes.icono import icono
 
 PAIS_INICIAL = 'Mexico'
@@ -31,7 +32,8 @@ def sidebar():
         html.Div([
             html.Label('País', htmlFor='filtro-pais', className='form-label'),
             dcc.Dropdown(id='filtro-pais', options=datos.lista_paises(), value=PAIS_INICIAL,
-                         clearable=False, persistence=True, persistence_type='session'),
+                         clearable=False, persistence=True, persistence_type='session',
+                         labels=ETIQUETAS_DESPLEGABLE),
             html.Label('Rango de años', htmlFor='filtro-anios', className='form-label mt-3'),
             dcc.RangeSlider(id='filtro-anios', min=datos.ANIO_MIN, max=datos.ANIO_MAX, step=1,
                             value=[datos.ANIO_MIN, datos.ANIO_MAX],

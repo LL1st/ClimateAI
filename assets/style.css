@@ -198,3 +198,23 @@ body {
               display: inline-flex; align-items: center; justify-content: center; }
 .chip-a { background: var(--naranja-texto); }   /* naranja oscuro: la letra blanca cumple contraste */
 .chip-b { background: var(--azul); }
+
+/* ---------- Tarjeta de estimación (4.1) ---------- */
+/* La estimación se estira al alto del mapa; el mapa no (su gráfico se adapta al contenedor y crecería) */
+.tarjeta-estimacion { height: 100%; }
+.tarjeta-estimacion .form-label { font-size: var(--t-navegacion); font-weight: 500; margin-bottom: 6px; }
+.estimacion-resultado { background: var(--fondo); border-radius: 12px; padding: 14px 16px; }
+.estimacion-etiqueta { font-size: 12px; color: var(--texto-secundario); }
+.estimacion-valor { font-size: 34px; font-weight: 700; line-height: 1.15; color: var(--texto); }
+.estimacion-margen { font-size: 13px; color: var(--naranja-texto); margin-top: 2px; }
+.estimacion-riesgo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; font-size: 12px; }
+.estimacion-cambio { color: var(--texto); }
+.estimacion-real { font-size: 12px; color: var(--texto); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--borde); }
+.estimacion-sin { border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; font-size: 13px; }
+.estimacion-sin-titulo { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+
+/* Chip de riesgo: color + texto (regla 5); tonos con contraste 4.5:1 */
+.chip-riesgo { display: inline-block; font-size: var(--t-nota); font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+.chip-riesgo-bajo  { background: var(--verde-suave); color: #2E6B36; }
+.chip-riesgo-medio { background: var(--aviso-fondo); color: var(--aviso-texto); }
+.chip-riesgo-alto  { background: var(--naranja-suave); color: var(--naranja-texto); }
