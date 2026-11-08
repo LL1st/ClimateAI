@@ -1,0 +1,166 @@
+/* ClimateAI · tokens de diseño (CLAUDE.md, sección Diseño) y estilos base.
+   Dash carga este archivo solo. Los colores de texto ya usan los tonos corregidos
+   que cumplen contraste 4.5:1 (#6B7580 en vez de #87919B y #B8461F para naranja sobre claro). */
+
+:root {
+  /* Paleta */
+  --naranja: #E9683A;          /* acción, país A, temperatura alta */
+  --naranja-texto: #B8461F;    /* naranja para texto sobre fondos claros */
+  --naranja-suave: #FDEEE8;    /* fondo de elementos activos */
+  --azul: #2E75A9;             /* país B, información */
+  --azul-suave: #E8F1F8;
+  --verde: #42934D;            /* temperatura baja */
+  --verde-suave: #E9F4EA;
+  --amarillo: #E2B64D;         /* temperatura media */
+  --texto: #1F2933;
+  --texto-secundario: #6B7580;
+  --fondo: #F2F4F6;
+  --borde: #E7EAED;
+  --blanco: #FFFFFF;
+  --aviso-texto: #7A520C;
+  --aviso-fondo: #FFF5DD;
+
+  /* Forma */
+  --radio-tarjeta: 16px;
+  --radio-control: 8px;
+  --ancho-sidebar: 244px;
+
+  /* Tipografía (Inter) */
+  --fuente: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --t-titulo: 25px;            /* Bold */
+  --t-seccion: 18px;           /* Semi Bold */
+  --t-navegacion: 13px;        /* Medium */
+  --t-nota: 11px;              /* Regular, mínimo */
+}
+
+/* ---------- Base ---------- */
+body {
+  font-family: var(--fuente);
+  color: var(--texto);
+  background: var(--fondo);
+  font-size: 14px;
+}
+
+.titulo-pagina { font-size: var(--t-titulo); font-weight: 700; margin: 0 0 20px; color: var(--texto); }
+.titulo-seccion { font-size: var(--t-seccion); font-weight: 600; margin: 0; color: var(--texto); }
+.texto-secundario { color: var(--texto-secundario); }
+.nota { font-size: var(--t-nota); color: var(--texto-secundario); }
+
+/* ---------- Estructura ---------- */
+.app-contenedor { display: flex; min-height: 100vh; background: var(--fondo); }
+.contenido { flex: 1; min-width: 0; padding: 28px 32px 32px; }
+
+/* ---------- Íconos de línea (se tiñen con el color del texto) ---------- */
+.icono {
+  display: inline-block; width: 20px; height: 20px; flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask: var(--icono) center / contain no-repeat;
+  mask: var(--icono) center / contain no-repeat;
+}
+.icono-globo      { --icono: url('iconos/globo.svg'); }
+.icono-inicio     { --icono: url('iconos/inicio.svg'); }
+.icono-termometro { --icono: url('iconos/termometro.svg'); }
+.icono-barras     { --icono: url('iconos/barras.svg'); }
+.icono-alerta     { --icono: url('iconos/alerta.svg'); }
+.icono-info       { --icono: url('iconos/info.svg'); }
+.icono-tendencia  { --icono: url('iconos/tendencia.svg'); }
+
+/* ---------- Barra lateral ---------- */
+.sidebar {
+  width: var(--ancho-sidebar); min-width: var(--ancho-sidebar); min-height: 100vh;
+  background: var(--blanco); border-right: 1px solid var(--borde);
+  padding: 20px 16px; display: flex; flex-direction: column;
+}
+.sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 0 4px; margin-bottom: 28px; }
+.sidebar-logo-icono {
+  width: 36px; height: 36px; border-radius: 10px; background: var(--naranja); color: var(--blanco);
+  display: flex; align-items: center; justify-content: center;
+}
+.sidebar-logo-nombre { font-size: 19px; font-weight: 700; line-height: 1.1; }
+.sidebar-logo-sub { font-size: var(--t-nota); color: var(--texto-secundario); }
+
+.sidebar-etiqueta {
+  font-size: var(--t-nota); font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--texto-secundario); padding: 0 4px; margin: 0 0 8px;
+}
+.sidebar-separador { border: 0; border-top: 1px solid var(--borde); margin: 16px 4px; opacity: 1; }
+
+.sidebar .nav-link {
+  display: flex; align-items: center; gap: 12px;
+  font-size: var(--t-navegacion); font-weight: 500; color: var(--texto);
+  padding: 10px 12px; border-radius: var(--radio-control); border-left: 3px solid transparent;
+  margin-bottom: 2px;
+}
+.sidebar .nav-link .icono { color: var(--texto-secundario); }
+.sidebar .nav-link:hover { background: var(--fondo); color: var(--texto); }
+.sidebar .nav-link.active,
+.sidebar .nav-pills .nav-link.active {
+  background: var(--naranja-suave); color: var(--naranja-texto); border-left-color: var(--naranja);
+  font-weight: 600;
+}
+.sidebar .nav-link.active .icono { color: var(--naranja-texto); }
+
+.sidebar .form-label { font-size: var(--t-navegacion); font-weight: 500; color: var(--texto); margin-bottom: 6px; }
+.sidebar-filtros { padding: 0 4px; }
+
+.sidebar-pie { margin-top: auto; }
+.sidebar-equipo { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
+.sidebar-equipo-avatar {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--naranja); color: var(--blanco);
+  font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+.sidebar-equipo-nombre { font-size: 12px; font-weight: 600; }
+
+/* ---------- Controles ---------- */
+/* Los componentes de Dash 4 (dropdown, slider) se tiñen con estas variables */
+:root {
+  --Dash-Fill-Interactive-Strong: var(--naranja-texto);
+  --Dash-Text-Primary: var(--texto);
+  --Dash-Text-Strong: var(--texto);
+  --Dash-Text-Weak: var(--texto-secundario);
+  --Dash-Stroke-Strong: #C9CFD5;
+  --Dash-Stroke-Weak: var(--borde);
+}
+.dash-dropdown { border-radius: var(--radio-control); font-size: var(--t-navegacion); }
+.btn { border-radius: var(--radio-control); font-weight: 500; font-size: var(--t-navegacion); }
+/* botón principal: naranja oscuro con texto blanco (5.4:1); el naranja #E9683A con blanco no llega a 4.5:1 */
+.btn-primary { background: var(--naranja-texto); border-color: var(--naranja-texto); color: var(--blanco); }
+.btn-primary:hover, .btn-primary:focus { background: #9C3A19; border-color: #9C3A19; color: var(--blanco); }
+.btn-outline-primary { color: var(--naranja-texto); border-color: var(--naranja); }
+.btn-outline-primary:hover { background: var(--naranja-suave); color: var(--naranja-texto); border-color: var(--naranja); }
+
+/* ---------- Tarjetas ---------- */
+.tarjeta {
+  background: var(--blanco); border: 1px solid var(--borde); border-radius: var(--radio-tarjeta);
+  padding: 20px;
+}
+
+/* KPI: ícono en cuadro de color, título, valor grande y nota */
+.tarjeta-kpi { display: flex; gap: 14px; align-items: flex-start; height: 100%; }
+.kpi-icono {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.kpi-icono.tono-naranja { background: var(--naranja-suave); color: var(--naranja-texto); }
+.kpi-icono.tono-azul    { background: var(--azul-suave); color: var(--azul); }
+.kpi-icono.tono-verde   { background: var(--verde-suave); color: var(--verde); }
+.kpi-icono.tono-aviso   { background: var(--aviso-fondo); color: var(--aviso-texto); }
+.kpi-titulo { font-size: var(--t-navegacion); color: var(--texto-secundario); margin-bottom: 2px; }
+.kpi-valor { font-size: 26px; font-weight: 700; line-height: 1.2; color: var(--texto); }
+.kpi-nota { font-size: var(--t-nota); color: var(--texto-secundario); margin-top: 4px; }
+
+/* ---------- Avisos ---------- */
+/* Aviso de transparencia (pie de todas las páginas) */
+.aviso-transparencia { display: flex; gap: 14px; align-items: flex-start; margin-top: 24px; }
+.aviso-transparencia-icono {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--azul-suave); color: var(--azul);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.aviso-transparencia-titulo { font-weight: 600; margin-bottom: 2px; }
+.aviso-transparencia-texto { font-size: 12px; color: var(--texto-secundario); }
+
+/* Aviso ámbar que acompaña a cada estimación */
+.aviso-estimacion {
+  background: var(--aviso-fondo); color: var(--aviso-texto); border-radius: 10px;
+  padding: 10px 12px; font-size: 12px;
+}

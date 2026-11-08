@@ -41,7 +41,7 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
   - Nota (8/11): el enlace «Reportar un error» queda fuera por decisión del equipo. El Dashboard muestra por ahora una franja de estado (datos, modelo y una estimación de prueba) que la tarea 4.1 reemplaza.
   - Prompt: «Crea `app/app.py` con Dash, `use_pages=True` y dash-bootstrap-components. Crea las cinco páginas de `CLAUDE.md` con su título y un contenedor vacío. Agrega en `app/componentes/` la barra lateral (logo ClimateAI, menú con la página activa resaltada y "Acerca del proyecto" al pie) y el aviso de transparencia con el enlace "Reportar un error", que se muestra en todas las páginas. Los filtros globales de país y rango de años van en la barra lateral y se guardan en un `dcc.Store`.»
   - Terminado cuando: `python app/app.py` abre las 5 páginas y el menú navega entre ellas.
-- [ ] **1.3 Estilos del diseño** (Luis)
+- [x] **1.3 Estilos del diseño** (Luis)
   - Prompt: «Crea `assets/style.css` con los tokens de diseño de `CLAUDE.md` como variables CSS y aplícalos a la barra lateral, las tarjetas, los botones y los textos. Crea `app/componentes/tarjeta_kpi.py` con título, valor grande y nota, igual que los KPI del Figma.»
   - Terminado cuando: la app se parece a la pantalla «AF · 1 Dashboard» del Figma, sin contar el contenido.
 

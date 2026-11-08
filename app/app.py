@@ -17,21 +17,23 @@ from modelo.inferencia import predecir            # noqa: E402,F401  carga únic
 from componentes.aviso_transparencia import aviso_transparencia
 from componentes.sidebar import sidebar
 
+# Inter desde Google Fonts; sin internet se usa Segoe UI / system-ui (ver assets/style.css)
+FUENTE_INTER = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+
 app = dash.Dash(
     __name__,
     use_pages=True,
     pages_folder=os.path.join(_APP, 'pages'),
     assets_folder=os.path.join(_RAIZ, 'assets'),
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    external_stylesheets=[dbc.themes.BOOTSTRAP, FUENTE_INTER],
     title='ClimateAI',
 )
 
 app.layout = html.Div([
     dcc.Store(id='filtros'),
     sidebar(),
-    html.Main([dash.page_container, aviso_transparencia()],
-              style={'flex': 1, 'padding': 32, 'background': '#F2F4F6', 'minHeight': '100vh'}),
-], style={'display': 'flex'})
+    html.Main([dash.page_container, aviso_transparencia()], className='contenido'),
+], className='app-contenedor')
 
 
 def armar_filtros(pais, rango):

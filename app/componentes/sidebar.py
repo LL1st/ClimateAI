@@ -1,21 +1,33 @@
-"""Barra lateral: logo, menú de páginas y filtros globales de país y años."""
+"""Barra lateral: logo, menú de páginas, filtros globales y pie con "Acerca del proyecto"."""
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 
 import datos
+from componentes.icono import icono
 
 PAIS_INICIAL = 'Mexico'
 
-MENU = [('Dashboard', '/'), ('Temperaturas', '/temperaturas'),
-        ('Global y estaciones', '/global-y-estaciones'), ('Anomalías', '/anomalias')]
+MENU = [('Dashboard', '/', 'inicio'), ('Temperaturas', '/temperaturas', 'termometro'),
+        ('Global y estaciones', '/global-y-estaciones', 'barras'), ('Anomalías', '/anomalias', 'alerta')]
+
+
+def _enlace(nombre, ruta, nombre_icono):
+    return dbc.NavLink([icono(nombre_icono), html.Span(nombre)], href=ruta, active='exact')
 
 
 def sidebar():
     return html.Aside([
-        html.Div('ClimateAI', className='sidebar-logo', style={'fontWeight': 700, 'fontSize': 22, 'marginBottom': 24}),
-        dbc.Nav([dbc.NavLink(nombre, href=ruta, active='exact') for nombre, ruta in MENU],
-                vertical=True, pills=True, id='menu'),
-        html.Hr(),
+        html.Div([
+            html.Div(icono('globo', 22), className='sidebar-logo-icono'),
+            html.Div([html.Div('ClimateAI', className='sidebar-logo-nombre'),
+                      html.Div('Análisis climático con IA', className='sidebar-logo-sub')]),
+        ], className='sidebar-logo'),
+
+        html.Div('Análisis', className='sidebar-etiqueta'),
+        dbc.Nav([_enlace(*m) for m in MENU], vertical=True, pills=True, id='menu'),
+        html.Hr(className='sidebar-separador'),
+
+        html.Div('Filtros', className='sidebar-etiqueta'),
         html.Div([
             html.Label('País', htmlFor='filtro-pais', className='form-label'),
             dcc.Dropdown(id='filtro-pais', options=datos.lista_paises(), value=PAIS_INICIAL,
@@ -25,9 +37,15 @@ def sidebar():
                             value=[datos.ANIO_MIN, datos.ANIO_MAX],
                             marks={a: str(a) for a in (datos.ANIO_MIN, 1950, datos.ANIO_MAX)},
                             tooltip={'placement': 'bottom'}, persistence=True, persistence_type='session'),
-        ], id='filtros-globales'),
-        html.Div(dbc.Nav([dbc.NavLink('Acerca del proyecto', href='/acerca', active='exact')],
-                         vertical=True, pills=True), style={'marginTop': 'auto'}),
-    ], id='sidebar', className='sidebar',
-        style={'width': 244, 'minWidth': 244, 'minHeight': '100vh', 'background': '#FFFFFF',
-               'borderRight': '1px solid #E7EAED', 'padding': 20, 'display': 'flex', 'flexDirection': 'column'})
+        ], id='filtros-globales', className='sidebar-filtros'),
+
+        html.Div([
+            dbc.Nav([_enlace('Acerca del proyecto', '/acerca', 'info')], vertical=True, pills=True),
+            html.Hr(className='sidebar-separador'),
+            html.Div([
+                html.Div('CA', className='sidebar-equipo-avatar', **{'aria-hidden': 'true'}),
+                html.Div([html.Div('Equipo ClimateAI', className='sidebar-equipo-nombre'),
+                          html.Div('Proyecto académico · UT Cancún', className='nota')]),
+            ], className='sidebar-equipo'),
+        ], className='sidebar-pie'),
+    ], id='sidebar', className='sidebar')

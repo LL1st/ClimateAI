@@ -6,6 +6,6 @@ NOMBRE = 'Temperaturas'
 dash.register_page(__name__, path='/temperaturas', name=NOMBRE, title=f'{NOMBRE} · ClimateAI', order=1)
 
 layout = html.Div([
-    html.H1(NOMBRE),
+    html.H1(NOMBRE, className='titulo-pagina'),
     html.Div(id='temperaturas-contenido'),
 ])

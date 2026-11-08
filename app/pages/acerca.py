@@ -6,6 +6,6 @@ NOMBRE = 'Acerca del proyecto'
 dash.register_page(__name__, path='/acerca', name=NOMBRE, title=f'{NOMBRE} · ClimateAI', order=4)
 
 layout = html.Div([
-    html.H1(NOMBRE),
+    html.H1(NOMBRE, className='titulo-pagina'),
     html.Div(id='acerca-contenido'),
 ])
