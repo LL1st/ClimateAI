@@ -1,13 +1,13 @@
 /* ClimateAI · tamaño de los puntos y efecto «lupa» del mapa (tarea 3.1).
-   - Tamaño: los puntos miden la mitad de la separación entre ellos, según el ancho real
+   - Tamaño: los puntos miden 3/4 de la separación entre ellos, según el ancho real
      del mapa, así quedan delgados y con aire entre sí (estilo «dot matrix»).
    - Lupa: al pasar el mouse, el punto crece y sus vecinos crecen menos según la distancia.
    Corre solo en el navegador (sin ir al servidor). Dash carga este archivo solo; el
    Dashboard lo activa con un clientside_callback cada vez que cambia la figura. */
 (function () {
-  var PROPORCION = 0.5;    // diámetro del punto / separación entre puntos
-  var MIN_PX = 2.5, MAX_PX = 7;
-  var CRECE = 2.3;         // el punto bajo el mouse crece a 2.3 veces su tamaño
+  var PROPORCION = 0.75;   // diámetro del punto / separación: igual de denso en ventana chica o pantalla completa
+  var MIN_PX = 2.5, MAX_PX = 12;
+  var CRECE = 2;           // el punto bajo el mouse crece al doble
   var RADIO_PASOS = 3.5;   // la lupa alcanza 3.5 separaciones a la redonda
   var ESPERA_SALIDA = 80;  // ms antes de soltar la lupa (evita parpadeo entre puntos)
 
