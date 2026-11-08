@@ -34,7 +34,7 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 
 ## Fase 1 · Aplicación base (lun 9 – mar 10 · Juan y Luis · A12)
 
-- [ ] **1.1 Carga de datos** (Juan)
+- [x] **1.1 Carga de datos** (Juan)
   - Prompt: «Crea `app/datos.py`, que lea una sola vez los archivos de `data/processed` y exponga funciones para obtener la serie de un país, la lista de países, los valores de un año para el mapa, la serie global, los datos mensuales de un país y las anomalías. Agrega `tests/test_datos.py` que verifique 0 duplicados por país y año, 0 nulos en `temp_media_anual_c` y 232 países (criterio CA-01).»
   - Terminado cuando: las pruebas pasan y ninguna función lee archivos más de una vez.
 - [ ] **1.2 Esqueleto de la app** 🧭 (Juan)
