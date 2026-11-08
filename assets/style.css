@@ -218,3 +218,9 @@ body {
 .chip-riesgo-bajo  { background: var(--verde-suave); color: #2E6B36; }
 .chip-riesgo-medio { background: var(--aviso-fondo); color: var(--aviso-texto); }
 .chip-riesgo-alto  { background: var(--naranja-suave); color: var(--naranja-texto); }
+
+/* ---------- Casos de ejemplo (4.2) ---------- */
+.boton-ejemplo { font-size: 12px; font-weight: 500; color: var(--naranja-texto) !important;
+                 background: var(--naranja-suave) !important; border: 0 !important; border-radius: var(--radio-control); }
+.boton-ejemplo:hover, .boton-ejemplo:focus { background: #FBDCD0 !important; }
+#menu-ejemplos .dropdown-item { font-size: var(--t-navegacion); }

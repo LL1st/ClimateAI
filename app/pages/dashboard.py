@@ -1,5 +1,5 @@
 """Página «Dashboard»: estado de datos y modelo, mapa mundial por año con selección A/B
-(3.1 y 3.2) y tarjeta de estimación (4.1)."""
+(3.1 y 3.2), tarjeta de estimación (4.1) y gráfica 3 con casos de ejemplo (4.2)."""
 import dash
 import dash_bootstrap_components as dbc
 from dash import ClientsideFunction, Input, Output, State, callback, clientside_callback, ctx, dcc, html, no_update
@@ -8,7 +8,8 @@ import datos
 from componentes.formato import num
 from componentes.icono import icono
 from componentes.mapa import SELECCION_VACIA, elegir_pais, figura_mapa, leyenda_mapa
-from componentes.tarjeta_estimacion import formulario_estimacion, resultado_estimacion
+from componentes.grafica_estimacion import figura_estimacion
+from componentes.tarjeta_estimacion import EJEMPLOS, formulario_estimacion, resultado_estimacion
 from componentes.tarjeta_kpi import tarjeta_kpi
 from modelo.inferencia import predecir
 
@@ -44,11 +45,27 @@ def layout():
             dbc.Col(tarjeta_mapa(), xl=8),
             dbc.Col(formulario_estimacion(datos.lista_paises(), datos.ANIO_MAX, _nombre_modelo()), xl=4),
         ], className='g-3 mt-0'),
+        tarjeta_grafica_estimacion(),
+        dcc.Store(id='ultima-inferencia'),   # entrada, salida y tiempo_ms para el panel de diagnóstico (7.3)
         html.Div(id='dashboard-contenido'),
     ])
 
 
-# ---------- Tarjeta de estimación (4.1) ----------
+# ---------- Tarjeta de estimación (4.1), gráfica 3 y casos de ejemplo (4.2) ----------
+
+def tarjeta_grafica_estimacion():
+    return html.Section([
+        html.Div([
+            html.Div(icono('tendencia', 22), className='tarjeta-encabezado-icono'),
+            html.Div([
+                html.H2(['Serie histórica y estimación', html.Span(id='est-grafica-pais')], className='titulo-seccion'),
+                html.Div('Línea continua: datos históricos · punteada: estimación con su banda ± MAE · '
+                         'círculos: valores reales de los años estimados', className='nota'),
+            ]),
+        ], className='tarjeta-encabezado'),
+        dcc.Graph(id='est-grafica', config={'displayModeBar': False}),
+    ], className='tarjeta mt-3', id='tarjeta-grafica-estimacion')
+
 
 def armar_entrada(pais, anio_base, horizonte):
     entrada = {'pais': pais, 'horizonte_anios': int(horizonte) if horizonte is not None else None}
@@ -57,14 +74,45 @@ def armar_entrada(pais, anio_base, horizonte):
     return entrada
 
 
-@callback(Output('est-resultado', 'children'), Input('est-calcular', 'n_clicks'),
+def estimar(entrada):
+    """Llama a predecir() y arma todo lo que se muestra: tarjeta, gráfica, título y registro."""
+    r = predecir(entrada)
+    if r.get('error') or r.get('prediccion') is None:
+        figura, titulo = figura_estimacion(r, None, None), ''
+    else:
+        historia = datos.serie_pais(r['pais'], anio_fin=r['anio_base'])
+        reales = datos.serie_pais(r['pais'], r['anio_base'] + 1, r['anio_objetivo'])
+        figura, titulo = figura_estimacion(r, historia, reales), f" · {r['pais']}"
+    registro = {'entrada': entrada, 'salida': r, 'tiempo_ms': r.get('tiempo_ms')}
+    return resultado_estimacion(r), figura, titulo, registro
+
+
+_EJEMPLO_POR_ID = {f'ejemplo-{clave}': entrada for clave, _, entrada in EJEMPLOS}
+
+
+def calcular_desde(disparador, pais, anio_base, horizonte):
+    """Lógica del callback, separada para probarla sin Dash. Un ejemplo llena el formulario y calcula."""
+    entrada = _EJEMPLO_POR_ID.get(disparador)
+    if entrada is None:
+        entrada = armar_entrada(pais, anio_base, horizonte)
+        formulario = (no_update, no_update, no_update)
+    else:
+        formulario = (entrada['pais'], entrada['anio_base'], entrada['horizonte_anios'])
+    return (*estimar(entrada), *formulario)
+
+
+@callback(Output('est-resultado', 'children'), Output('est-grafica', 'figure'),
+          Output('est-grafica-pais', 'children'), Output('ultima-inferencia', 'data'),
+          Output('est-pais', 'value'), Output('est-anio-base', 'value'), Output('est-horizonte', 'value'),
+          Input('est-calcular', 'n_clicks'), *[Input(f'ejemplo-{clave}', 'n_clicks') for clave, _, _ in EJEMPLOS],
           State('est-pais', 'value'), State('est-anio-base', 'value'), State('est-horizonte', 'value'))
-def calcular_estimacion(_n, pais, anio_base, horizonte):
+def calcular_estimacion(_n, *args):
     # se dispara también al abrir la página, para que la tarjeta no aparezca vacía
-    return resultado_estimacion(predecir(armar_entrada(pais, anio_base, horizonte)))
+    pais, anio_base, horizonte = args[-3:]
+    return calcular_desde(ctx.triggered_id, pais, anio_base, horizonte)
 
 
-@callback(Output('est-pais', 'value'), Input('paises-ab', 'data'), prevent_initial_call=True)
+@callback(Output('est-pais', 'value', allow_duplicate=True), Input('paises-ab', 'data'), prevent_initial_call=True)
 def copiar_pais_a(seleccion):
     """El país A elegido en el mapa (3.2) se copia al formulario; no calcula solo."""
     pais = (seleccion or {}).get('a')

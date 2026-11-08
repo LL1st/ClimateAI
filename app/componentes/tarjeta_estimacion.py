@@ -14,6 +14,13 @@ PAIS_INICIAL = 'Mexico'
 HORIZONTE_INICIAL = 5
 ANIO_BASE_MIN = 1910
 
+# Casos de ejemplo de la tarea 4.2: (clave del id, texto del menú, entrada de predecir())
+EJEMPLOS = [
+    ('mexico', 'México · desde 2012 a 5 años', {'pais': 'Mexico', 'anio_base': 2012, 'horizonte_anios': 5}),
+    ('canada', 'Canadá · desde 2000 a 10 años', {'pais': 'Canada', 'anio_base': 2000, 'horizonte_anios': 10}),
+    ('india', 'India · desde 1995 a 5 años', {'pais': 'India', 'anio_base': 1995, 'horizonte_anios': 5}),
+]
+
 
 def _signo(valor, decimales=2):
     texto = num(abs(valor), decimales)
@@ -28,7 +35,11 @@ def formulario_estimacion(paises, anio_max, nombre_modelo):
             html.Div([
                 html.H2('Estimación del modelo', className='titulo-seccion'),
                 html.Div(f'Temperatura media anual · {nombre_modelo}', className='nota'),
-            ]),
+            ], className='flex-grow-1'),
+            dbc.DropdownMenu(
+                [dbc.DropdownMenuItem(texto, id=f'ejemplo-{clave}') for clave, texto, _ in EJEMPLOS],
+                label='Cargar ejemplo', size='sm', color='light', align_end=True, id='menu-ejemplos',
+                toggle_class_name='boton-ejemplo'),
         ], className='tarjeta-encabezado'),
         dbc.Row([
             dbc.Col([
