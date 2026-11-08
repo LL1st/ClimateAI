@@ -135,6 +135,7 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 - [ ] **8.3 Corrección de defectos:** un commit por defecto, primero los críticos y altos.
   - DEF-01 (medio) cerrado el 8/11: contraste del texto secundario sobre el fondo gris.
   - DEF-02 (bajo) cerrado el 8/11: valores del panel de comparación partidos en dos líneas.
+  - DEF-03 (bajo) cerrado el 8/11: puntos morados en las esquinas de la banda ± MAE.
 
 ## Fase 9 · Entrega (lun 30 – mar 1/12)
 

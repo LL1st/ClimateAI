@@ -136,3 +136,9 @@ def test_grafica_sin_estimacion(dashboard):
     _, fig, titulo, registro, *_ = dashboard.calcular_desde('est-calcular', 'Atlantis', 2012, 5)
     assert fig.layout.annotations[0].text == 'Sin estimación para mostrar'
     assert titulo == '' and registro['salida']['error']
+
+
+def test_banda_mae_sin_marcadores(dashboard):
+    """DEF-03: la banda ± MAE es solo un área, sin puntos en sus esquinas."""
+    _, fig, *_ = dashboard.calcular_desde('est-calcular', 'Mexico', 2012, 5)
+    assert _trazas(fig)['± MAE'].mode == 'lines'

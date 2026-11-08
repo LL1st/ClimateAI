@@ -36,8 +36,10 @@ def figura_estimacion(r, historia, reales):
     abajo = [ultimo] + [v - mae for v in est]
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=x_est + x_est[::-1], y=arriba + abajo[::-1], fill='toself', fillcolor=BANDA,
-                             line=dict(width=0), hoverinfo='skip', name=f'± MAE ({mae:.2f} °C)'.replace('.', ',')))
+    # mode='lines': sin él, Plotly pone marcadores (puntos morados) en las esquinas de la banda (DEF-03)
+    fig.add_trace(go.Scatter(x=x_est + x_est[::-1], y=arriba + abajo[::-1], mode='lines', fill='toself',
+                             fillcolor=BANDA, line=dict(width=0), hoverinfo='skip',
+                             name=f'± MAE ({mae:.2f} °C)'.replace('.', ',')))
     fig.add_trace(go.Scatter(x=historia.anio, y=historia.temp_media_anual_c, mode='lines', name='Histórico',
                              line=dict(color=COLOR_HISTORIA, width=1.8),
                              hovertemplate='%{x}: %{y:.2f} °C<extra>Histórico</extra>'))
