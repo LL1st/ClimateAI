@@ -1,0 +1,12 @@
+# Datos y modelo
+pandas==3.0.5
+scikit-learn==1.9.1
+joblib==1.6.0
+
+# Interfaz
+dash==4.5.0
+dash-bootstrap-components==2.0.4
+plotly==7.1.0
+
+# Pruebas
+pytest==9.2.0

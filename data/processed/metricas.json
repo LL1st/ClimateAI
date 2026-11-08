@@ -1,0 +1,39 @@
+{
+  "corte": 1992,
+  "filas": 23771,
+  "train": 18899,
+  "test": 4872,
+  "variables": [
+    "anio",
+    "temp_media_5a_c",
+    "cambio_anio_anterior_c",
+    "tendencia_c"
+  ],
+  "resultados": {
+    "linea_base_promedio_5a": {
+      "mae": 0.318,
+      "rmse": 0.438,
+      "r2": 0.9975
+    },
+    "regresion_lineal": {
+      "mae": 0.307,
+      "rmse": 0.422,
+      "r2": 0.9977
+    },
+    "random_forest": {
+      "mae": 0.322,
+      "rmse": 0.449,
+      "r2": 0.9974
+    }
+  },
+  "modelo_elegido": "regresion_lineal",
+  "supera_linea_base": true,
+  "peso_variables": {
+    "anio": -0.0035,
+    "temp_media_5a_c": -0.004,
+    "cambio_anio_anterior_c": 0.0751,
+    "tendencia_c": -0.1335
+  },
+  "anomalias": 476,
+  "anomalias_pct": 2.0
+}

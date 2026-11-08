@@ -1,0 +1,52 @@
+{
+ "1": {
+  "mae_modelo": 0.305,
+  "mae_linea_base": 0.316,
+  "casos": 4640
+ },
+ "2": {
+  "mae_modelo": 0.317,
+  "mae_linea_base": 0.331,
+  "casos": 4408
+ },
+ "3": {
+  "mae_modelo": 0.316,
+  "mae_linea_base": 0.334,
+  "casos": 4176
+ },
+ "4": {
+  "mae_modelo": 0.324,
+  "mae_linea_base": 0.341,
+  "casos": 3944
+ },
+ "5": {
+  "mae_modelo": 0.329,
+  "mae_linea_base": 0.346,
+  "casos": 3712
+ },
+ "6": {
+  "mae_modelo": 0.342,
+  "mae_linea_base": 0.366,
+  "casos": 3480
+ },
+ "7": {
+  "mae_modelo": 0.335,
+  "mae_linea_base": 0.362,
+  "casos": 3248
+ },
+ "8": {
+  "mae_modelo": 0.343,
+  "mae_linea_base": 0.374,
+  "casos": 3016
+ },
+ "9": {
+  "mae_modelo": 0.362,
+  "mae_linea_base": 0.408,
+  "casos": 2784
+ },
+ "10": {
+  "mae_modelo": 0.385,
+  "mae_linea_base": 0.43,
+  "casos": 2552
+ }
+}
