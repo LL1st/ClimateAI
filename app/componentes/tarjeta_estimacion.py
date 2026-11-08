@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html
 
 from componentes.chip_riesgo import chip_riesgo
-from componentes.formato import ETIQUETAS_DESPLEGABLE, num
+from componentes.formato import ETIQUETAS_DESPLEGABLE, con_signo, num
 from componentes.icono import icono
 
 PAIS_INICIAL = 'Mexico'
@@ -20,11 +20,6 @@ EJEMPLOS = [
     ('canada', 'Canadá · desde 2000 a 10 años', {'pais': 'Canada', 'anio_base': 2000, 'horizonte_anios': 10}),
     ('india', 'India · desde 1995 a 5 años', {'pais': 'India', 'anio_base': 1995, 'horizonte_anios': 5}),
 ]
-
-
-def _signo(valor, decimales=2):
-    texto = num(abs(valor), decimales)
-    return f'+{texto}' if valor >= 0 else f'−{texto}'
 
 
 def formulario_estimacion(paises, anio_max, nombre_modelo):
@@ -75,7 +70,7 @@ def resultado_estimacion(r):
         html.Div(f"± {num(r['mae_modelo'])} °C de error medio (MAE)", className='estimacion-margen'),
         html.Div([
             chip_riesgo(r.get('clase_etiqueta')),
-            html.Span(f"{_signo(r['cambio_vs_1951_1980'])} °C frente a 1951–1980", className='estimacion-cambio'),
+            html.Span(f"{con_signo(r['cambio_vs_1951_1980'])} °C frente a 1951–1980", className='estimacion-cambio'),
         ], className='estimacion-riesgo'),
     ]
     if r.get('valor_real') is not None:

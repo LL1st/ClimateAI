@@ -57,7 +57,7 @@ def test_dashboard_muestra_datos_y_modelo_cargados(modulo_app):
     pagina = next(p for p in dash.page_registry.values() if p['path'] == '/')
     contenido = pagina['layout']()
     texto = _texto(contenido)
-    assert '232 países' in texto and 'regresión lineal' in texto
+    assert '232 países' in texto and 'regresión lineal' in texto       # subtítulo de estado
     ids = _ids(contenido)
     assert {'tarjeta-mapa', 'tarjeta-estimacion', 'est-calcular', 'est-resultado'} <= ids
     # la estimación (con su ± MAE) la llena el callback; ver tests/test_estimacion.py

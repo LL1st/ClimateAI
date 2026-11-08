@@ -8,6 +8,14 @@ def num(valor, decimales=2):
     return f'{valor:.{decimales}f}'.replace('.', ',')
 
 
+def con_signo(valor, decimales=2):
+    """0.62 -> '+0,62', -0.4 -> '−0,40'. Devuelve '—' si no hay valor."""
+    if valor is None:
+        return '—'
+    texto = num(abs(valor), decimales)
+    return f'+{texto}' if valor >= 0 else f'−{texto}'
+
+
 # Textos en español para los desplegables de Dash 4 (por omisión vienen en inglés: «Search»…)
 ETIQUETAS_DESPLEGABLE = {
     'search': 'Buscar',

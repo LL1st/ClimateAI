@@ -82,7 +82,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 
 ## Fase 5 · Exploradores y KPIs (mié 11 – vie 13 · Luis · A16)
 
-- [ ] **5.1 KPIs del dashboard**
+- [x] **5.1 KPIs del dashboard**
+  - Resultado (8/11): temperatura media, variación (últimos 10 años frente a los primeros 10), cambio frente a 1951–1980 y anomalías, según el país y el rango de años de la barra lateral. Reemplazan la franja provisional; el estado de datos y modelo quedó como subtítulo bajo «Dashboard».
   - Prompt: «Agrega la fila de 4 KPIs al Dashboard: temperatura media del periodo, variación del periodo, cambio frente a 1951–1980 y número de anomalías. Todos reaccionan a los filtros globales de país y rango de años.»
 - [ ] **5.2 Página Temperaturas**
   - Prompt: «En `pages/temperaturas.py`, muestra la evolución histórica del país filtrado (línea), un resumen de 4 países de referencia en barras y una tabla paginada con `pais, anio, temp_media_anual_c, incertidumbre_c` y una columna "¿Anomalía?". Todo reacciona a los filtros globales.»

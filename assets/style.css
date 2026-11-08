@@ -224,3 +224,6 @@ body {
                  background: var(--naranja-suave) !important; border: 0 !important; border-radius: var(--radio-control); }
 .boton-ejemplo:hover, .boton-ejemplo:focus { background: #FBDCD0 !important; }
 #menu-ejemplos .dropdown-item { font-size: var(--t-navegacion); }
+
+/* ---------- Subtítulo del Dashboard (5.1) ---------- */
+.subtitulo-pagina { font-size: 12px; margin-bottom: 4px; }

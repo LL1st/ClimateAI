@@ -1,4 +1,4 @@
-"""Página «Dashboard»: estado de datos y modelo, mapa mundial por año con selección A/B
+"""Página «Dashboard»: KPIs según los filtros (5.1), mapa mundial por año con selección A/B
 (3.1 y 3.2), tarjeta de estimación (4.1) y gráfica 3 con casos de ejemplo (4.2)."""
 import dash
 import dash_bootstrap_components as dbc
@@ -7,10 +7,11 @@ from dash import ClientsideFunction, Input, Output, State, callback, clientside_
 import datos
 from componentes.formato import num
 from componentes.icono import icono
+from componentes.kpis import calcular_kpis, fila_kpis
 from componentes.mapa import SELECCION_VACIA, elegir_pais, figura_mapa, leyenda_mapa
 from componentes.grafica_estimacion import figura_estimacion
+from componentes.sidebar import PAIS_INICIAL
 from componentes.tarjeta_estimacion import EJEMPLOS, formulario_estimacion, resultado_estimacion
-from componentes.tarjeta_kpi import tarjeta_kpi
 from modelo.inferencia import predecir
 
 NOMBRE = 'Dashboard'
@@ -24,23 +25,35 @@ def _nombre_modelo():
     return _NOMBRE_MODELO.get(elegido, elegido)
 
 
-def franja_estado():
-    """Muestra que los datos y el modelo se cargaron (la fila de KPIs de la 5.1 la reemplaza)."""
+def subtitulo_estado():
+    """Datos y modelo cargados, en una línea bajo el título."""
     m = datos.metricas()
-    return dbc.Row([
-        dbc.Col(tarjeta_kpi('Datos cargados', f'{len(datos.lista_paises())} países',
-                            f'{datos.ANIO_MIN}–{datos.ANIO_MAX} · Berkeley Earth',
-                            icono_nombre='globo', tono='azul'), md=6),
-        dbc.Col(tarjeta_kpi('Modelo', _nombre_modelo(),
-                            f"MAE {num(m['resultados'][m['modelo_elegido']]['mae'], 3)} °C a 1 año",
-                            icono_nombre='barras', tono='verde'), md=6),
-    ], className='g-3', id='franja-estado')
+    return html.Div(
+        f"Berkeley Earth · {len(datos.lista_paises())} países · {datos.ANIO_MIN}–{datos.ANIO_MAX} · "
+        f"modelo: {_nombre_modelo()} (MAE {num(m['resultados'][m['modelo_elegido']]['mae'], 3)} °C a 1 año)",
+        className='nota subtitulo-pagina', id='estado-datos-modelo')
+
+
+# ---------- KPIs (5.1): reaccionan a los filtros globales de país y años ----------
+
+def kpis_para(filtros):
+    f = filtros or {}
+    pais = f.get('pais') or PAIS_INICIAL
+    inicio, fin = f.get('anio_inicio', datos.ANIO_MIN), f.get('anio_fin', datos.ANIO_MAX)
+    valores = calcular_kpis(datos.serie_pais(pais, inicio, fin), datos.anomalias(pais, inicio, fin))
+    return fila_kpis(pais, valores)
+
+
+@callback(Output('fila-kpis', 'children'), Input('filtros', 'data'), prevent_initial_call=True)
+def actualizar_kpis(filtros):
+    return kpis_para(filtros)
 
 
 def layout():
     return html.Div([
-        html.H1(NOMBRE, className='titulo-pagina'),
-        franja_estado(),
+        html.H1(NOMBRE, className='titulo-pagina mb-1'),
+        subtitulo_estado(),
+        dbc.Row(kpis_para(None), className='g-3 mt-2', id='fila-kpis'),
         dbc.Row([   # como el Figma: mapa a la izquierda y estimación a la derecha (apilados en pantallas angostas)
             dbc.Col(tarjeta_mapa(), xl=8),
             dbc.Col(formulario_estimacion(datos.lista_paises(), datos.ANIO_MAX, _nombre_modelo()), xl=4),
