@@ -135,7 +135,8 @@ Plan para construir el dashboard del 9 al 27 de noviembre de 2026 siguiendo el c
 
 ## Fase 9 · Entrega (lun 30 – mar 1/12)
 
-- [ ] **9.1 README final**
+- [x] **9.1 README final**
+  - Resultado (8/11): instalación paso a paso en Windows (PowerShell), cómo abrir la app, regeneración de datos y modelo, pruebas, estructura, problemas comunes, licencia y 6 capturas en `docs/capturas/`. Probado en una copia limpia: instalación, 182 pruebas, las 5 páginas responden y los datos regenerados son idénticos a los del repositorio.
   - Prompt: «Actualiza el README con la instalación paso a paso en Windows, los comandos para preparar los datos, entrenar y correr la app, y una captura de cada página.»
 - [ ] **9.2 Ensayo de la demostración** con los 3 casos de ejemplo y la comparación de dos países.
 
