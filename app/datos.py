@@ -77,7 +77,7 @@ def valores_anio(anio):
 
 
 def mapa_anio(anio):
-    """Datos del mapa para un año. Con puntos: lat, lon, iso3, pais, temp (una fila por punto).
+    """Datos del mapa para un año. Con puntos: lat, lon, iso3, relleno, pais, temp (una fila por punto).
     Sin puntos (respaldo): iso3, pais, temp (una fila por país). temp es NaN si no hay dato."""
     temps = _PAIS_ANIO.loc[_PAIS_ANIO.anio == anio].set_index('pais').temp_media_anual_c
     base = _PUNTOS if HAY_PUNTOS else _ISO3[['iso3', 'pais']]

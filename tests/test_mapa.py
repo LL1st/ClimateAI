@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 import pytest
 
 import datos
-from componentes.mapa import TAMANO_PUNTO, clase_temperatura, figura_mapa
+from componentes.mapa import FACTOR_CHICO, TAMANO_PUNTO, clase_temperatura, figura_mapa
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -53,10 +53,15 @@ def test_paises_sin_datos_en_gris():
     assert df[df.iso3 == 'SDS'].pais.iloc[0] == 'South Sudan'
 
 
-def test_figura_de_puntos_con_tamano_base():
-    fig = figura_mapa(datos.mapa_anio(2012))
+def test_figura_de_puntos_con_tamano_base_y_relleno_chico():
+    df = datos.mapa_anio(2012)
+    fig = figura_mapa(df)
     assert isinstance(fig.data[0], go.Scattergeo)
-    assert set(fig.data[0].marker.size) == {TAMANO_PUNTO}
+    tamanos = list(fig.data[0].marker.size)
+    esperados = [TAMANO_PUNTO * (FACTOR_CHICO if r else 1) for r in df.relleno]
+    assert tamanos == esperados
+    assert fig.layout.geo.projection.type == 'equirectangular'
+    assert fig.layout.meta['paso'] == 4 and len(fig.layout.meta['factores']) == len(df)
 
 
 def test_respaldo_coropletico_sin_puntos(monkeypatch):
@@ -82,4 +87,4 @@ def test_callback_del_anio_tarda_menos_de_3_s(pagina_dashboard, anio):
     t0 = time.perf_counter()
     fig, texto = pagina_dashboard.actualizar_mapa(anio)
     assert time.perf_counter() - t0 < 3
-    assert texto == str(anio) and len(fig.data[0].lat) > 3000
+    assert texto == str(anio) and len(fig.data[0].lat) > 900

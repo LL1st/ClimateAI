@@ -9,7 +9,9 @@ from dash import html
 
 from componentes.formato import num
 
-TAMANO_PUNTO = 5          # px; la lupa en mapa_lupa.js parte de este tamaño
+TAMANO_PUNTO = 5          # px inicial; mapa_lupa.js lo ajusta al ancho real del mapa
+FACTOR_CHICO = 0.55       # puntos de relleno (países pequeños): más chicos que los de la cuadrícula
+PASO_GRADOS = 4           # separación de la cuadrícula (scripts/generar_puntos_mapa.py)
 
 # Clases fijas para todos los años (cerca de los terciles del dataset: 16.6 y 25.6 °C)
 CORTE_BAJA, CORTE_ALTA = 15, 25
@@ -46,10 +48,12 @@ def figura_mapa(df):
     if 'lat' not in df.columns:
         return figura_coropletica(df)
     colores, custom = _textos(df)
+    factores = [FACTOR_CHICO if r else 1 for r in df.get('relleno', [0] * len(df))]
     fig = go.Figure(go.Scattergeo(
         lat=df.lat, lon=df.lon, mode='markers', customdata=custom, hovertemplate=_TOOLTIP,
-        marker=dict(size=[TAMANO_PUNTO] * len(df), color=colores, line=dict(width=0), opacity=1),
+        marker=dict(size=[TAMANO_PUNTO * f for f in factores], color=colores, line=dict(width=0), opacity=1),
     ))
+    fig.update_layout(meta={'paso': PASO_GRADOS, 'factores': factores})   # lo lee mapa_lupa.js
     return _estilo(fig)
 
 
@@ -68,9 +72,10 @@ def figura_coropletica(df):
 
 def _estilo(fig):
     fig.update_geos(
-        projection_type='natural earth', showframe=False, showcoastlines=False, showcountries=False,
+        projection_type='equirectangular',   # filas rectas, estilo «dot matrix»
+        showframe=False, showcoastlines=False, showcountries=False,
         showland=False, showocean=False, showlakes=False, bgcolor='rgba(0,0,0,0)',
-        lataxis_range=[-58, 85],
+        lataxis_range=[-58, 84], lonaxis_range=[-180, 180],
     )
     fig.update_layout(
         margin=dict(l=0, r=0, t=0, b=0), autosize=True, paper_bgcolor='rgba(0,0,0,0)', dragmode=False,

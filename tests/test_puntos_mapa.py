@@ -23,19 +23,26 @@ def _sin_datos():
 
 
 def test_columnas_y_cantidad():
-    assert list(PUNTOS.columns) == ['lat', 'lon', 'iso3']
-    assert 3000 <= len(PUNTOS) <= 10000
+    # estilo «dot matrix»: cuadrícula de 4° (~960 puntos) + puntos chicos de relleno
+    assert list(PUNTOS.columns) == ['lat', 'lon', 'iso3', 'relleno']
+    assert 800 <= (PUNTOS.relleno == 0).sum() <= 1500
+    assert set(PUNTOS.relleno) == {0, 1}
+
+
+def test_cuadricula_alineada_cada_4_grados():
+    cuadricula = PUNTOS[PUNTOS.relleno == 0]
+    assert ((cuadricula.lon + 178) % 4 == 0).all()
+    assert ((cuadricula.lat + 58) % 4 == 0).all()
 
 
 def test_coordenadas_validas_y_sin_repetidos():
     assert PUNTOS.lat.between(-60, 85).all()
     assert PUNTOS.lon.between(-180, 180).all()
-    assert not PUNTOS.duplicated().any()
+    assert not PUNTOS.duplicated(['lat', 'lon', 'iso3']).any()
 
 
-def test_casi_todos_los_paises_tienen_punto():
-    con_punto = CON_CODIGO & set(PUNTOS.iso3)
-    assert len(con_punto) / len(CON_CODIGO) >= 0.95
+def test_ningun_pais_con_codigo_se_queda_sin_punto():
+    assert CON_CODIGO <= set(PUNTOS.iso3)
 
 
 def test_todo_codigo_es_nuestro_o_sin_datos():

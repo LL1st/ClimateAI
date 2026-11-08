@@ -170,7 +170,7 @@ body {
 .tarjeta-encabezado-icono { color: var(--naranja-texto); padding-top: 2px; }
 
 /* ---------- Mapa mundial (3.1) ---------- */
-.mapa-grafica { cursor: pointer; width: 100%; aspect-ratio: 2.1 / 1; max-height: 480px; min-height: 200px; }
+.mapa-grafica { cursor: pointer; width: 100%; aspect-ratio: 2.5 / 1; max-height: 460px; min-height: 160px; }
 .mapa-control-anio { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
 .mapa-control-anio .form-label { font-size: var(--t-navegacion); font-weight: 500; }
 .mapa-deslizador { flex: 1; }

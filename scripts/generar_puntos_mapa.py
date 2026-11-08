@@ -1,4 +1,4 @@
-"""Genera data/processed/puntos_mapa.csv (lat, lon, iso3): la cuadrícula de puntos del mapa.
+"""Genera data/processed/puntos_mapa.csv (lat, lon, iso3, relleno): los puntos del mapa estilo «dot matrix».
 
 Uso (una sola vez, necesita internet la primera vez):
     pip install -r requirements-scripts.txt
@@ -8,10 +8,11 @@ Es el único lugar del proyecto que usa geopandas. Pasos:
 1. Descarga los países Admin 0 de Natural Earth (1:110m y 1:50m) a data/raw/natural_earth/.
 2. Separa los territorios de ultramar que Natural Earth junta con su país (Guayana Francesa,
    Reunión, Svalbard, Bonaire…), porque Berkeley Earth los trae como países aparte.
-3. Cuadrícula cada 2° sobre el mapa 1:110m, unida por ADM0_A3 (no ISO_A3, que trae -99
+3. Cuadrícula cada 4° sobre el mapa 1:110m, unida por ADM0_A3 (no ISO_A3, que trae -99
    para Francia y Noruega) y traducida a ISO3.
 4. Relleno: cada país de paises_iso3.csv sin punto recibe uno en su punto representativo
-   del mapa 1:50m (islas y países pequeños que la cuadrícula no toca).
+   del mapa 1:50m (islas y países pequeños que la cuadrícula no toca). Se marca con
+   relleno=1 y el mapa lo dibuja más chico, para no romper el dibujo de la cuadrícula.
 """
 import os
 import urllib.request
@@ -27,7 +28,7 @@ PAISES = os.path.join(RAIZ, 'data', 'processed', 'paises_iso3.csv')
 SALIDA = os.path.join(RAIZ, 'data', 'processed', 'puntos_mapa.csv')
 URL_NE = 'https://naciscdn.org/naturalearth/{escala}/cultural/ne_{escala}_admin_0_countries.zip'
 
-PASO = 2                      # grados entre puntos
+PASO = 4                      # grados entre puntos (estilo «dot matrix»; con 2° salían ~3,900 puntos)
 LAT_MIN, LAT_MAX = -60, 84    # sin la Antártida (no tiene datos)
 
 # ADM0_A3 de Natural Earth -> ISO3 de paises_iso3.csv, cuando no coinciden
@@ -86,14 +87,14 @@ def cuadricula(paises):
     puntos = gpd.GeoDataFrame({'lat': lat.ravel(), 'lon': lon.ravel()},
                               geometry=gpd.points_from_xy(lon.ravel(), lat.ravel()), crs=paises.crs)
     en_tierra = gpd.sjoin(puntos, paises, predicate='within', how='inner')
-    return en_tierra[['lat', 'lon', 'iso3']].drop_duplicates(['lat', 'lon'])
+    return en_tierra[['lat', 'lon', 'iso3']].drop_duplicates(['lat', 'lon']).assign(relleno=0)
 
 
 def relleno(puntos, paises_50m, nuestros):
     faltan = sorted(nuestros - set(puntos.iso3))
     g = paises_50m[paises_50m.iso3.isin(faltan)].copy()
     rp = g.geometry.representative_point()
-    extra = pd.DataFrame({'lat': rp.y.values, 'lon': rp.x.values, 'iso3': g.iso3.values})
+    extra = pd.DataFrame({'lat': rp.y.values, 'lon': rp.x.values, 'iso3': g.iso3.values, 'relleno': 1})
     return extra, sorted(set(faltan) - set(extra.iso3))
 
 
@@ -105,12 +106,12 @@ def main():
     desconocidos = sorted(set(base.iso3) - nuestros - set(SIN_DATOS))
     extra, sin_punto = relleno(base, cargar_paises('50m'), nuestros)
 
-    puntos = pd.concat([base, extra], ignore_index=True).round(2)
-    puntos = puntos.drop_duplicates().sort_values(['lat', 'lon']).reset_index(drop=True)
+    puntos = pd.concat([base, extra], ignore_index=True).round({'lat': 2, 'lon': 2})
+    puntos = puntos.drop_duplicates(['lat', 'lon', 'iso3']).sort_values(['lat', 'lon']).reset_index(drop=True)
     puntos.to_csv(SALIDA, index=False, encoding='utf-8')
 
     con_punto = len(nuestros & set(puntos.iso3))
-    print(f'{len(puntos)} puntos ({len(base)} de la cuadrícula de {PASO}° + {len(extra)} de relleno) '
+    print(f'{len(puntos)} puntos ({len(base)} de la cuadrícula de {PASO}° + {len(extra)} chicos de relleno) '
           f'-> {os.path.relpath(SALIDA, RAIZ)}')
     print(f'Países con punto: {con_punto} de {len(nuestros)} con código')
     print(f'Sin punto: {sin_punto or "ninguno"}')
